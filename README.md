@@ -27,4 +27,6 @@ With my application:
 - employees are guaranteed to work with smaller groups, thus offering services of higher quality
 - no time needs to be spent on checking requirements at registration
 
-<div style="width: 640px; height: 480px; margin: 10px; position: relative;"><iframe allowfullscreen frameborder="0" style="width:640px; height:480px" src="https://lucid.app/documents/embedded/9695554c-b316-424b-814e-00fe31d8b46e" id="ofDm1N01QuDN"></iframe></div>
+
+![Screenshot (4)](https://github.com/user-attachments/assets/e3e76573-0a25-4572-aefb-b1c58c360254)
+
