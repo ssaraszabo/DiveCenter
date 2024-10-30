@@ -26,3 +26,5 @@ With my application:
 - registration errors are eliminated
 - employees are guaranteed to work with smaller groups, thus offering services of higher quality
 - no time needs to be spent on checking requirements at registration
+
+<div style="width: 640px; height: 480px; margin: 10px; position: relative;"><iframe allowfullscreen frameborder="0" style="width:640px; height:480px" src="https://lucid.app/documents/embedded/9695554c-b316-424b-814e-00fe31d8b46e" id="ofDm1N01QuDN"></iframe></div>
