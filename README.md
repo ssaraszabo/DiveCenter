@@ -28,5 +28,5 @@ With my application:
 - no time needs to be spent on checking requirements at registration
 
 
-![Screenshot (4)](https://github.com/user-attachments/assets/e3e76573-0a25-4572-aefb-b1c58c360254)
 
+![Screenshot (6)](https://github.com/user-attachments/assets/ec7be85a-613e-4e7c-aff3-8b646fa9cf8f)
