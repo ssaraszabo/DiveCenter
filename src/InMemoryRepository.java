@@ -3,12 +3,13 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Map;
 
-public class InMemoryRepository<T> implements IRepository<T> {
+public class InMemoryRepository<T extends Identifiable> implements IRepository<T> {
     private Map<Integer, T> data = new HashMap<>();
     private int currentId = 1;
 
     @Override
     public void create(T entity) {
+        entity.setId(currentId);
         data.put(currentId++, entity);
     }
 
@@ -24,7 +25,12 @@ public class InMemoryRepository<T> implements IRepository<T> {
 
     @Override
     public void update(T entity) {
-        //trebuie luat ID de la entity si pus in Map
+        int id = entity.getId();
+        if (data.containsKey(id)) {
+            data.put(id, entity);
+        } else {
+            throw new IllegalArgumentException("Entity with ID " + id + " does not exist.");
+        }
     }
 
     @Override

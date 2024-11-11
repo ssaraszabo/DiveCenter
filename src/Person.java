@@ -1,4 +1,4 @@
-public class Person {
+public class Person implements Identifiable{
     private int id;
     private String name;
     private int age;
