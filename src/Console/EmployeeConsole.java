@@ -17,11 +17,11 @@ public class EmployeeConsole {
 
     public void displayMenu() {
         while (true) {
-            System.out.println("Domain.Employee Management System:");
-            System.out.println("1. Add Domain.Employee");
-            System.out.println("2. View Domain.Employee");
-            System.out.println("3. Update Domain.Employee");
-            System.out.println("4. Delete Domain.Employee");
+            System.out.println("Employee Management System:");
+            System.out.println("1. Add Employee");
+            System.out.println("2. View Employee");
+            System.out.println("3. Update Employee");
+            System.out.println("4. Delete Employee");
             System.out.println("5. View All Employees");
             System.out.println("6. Exit");
             System.out.print("Enter choice: ");
@@ -68,7 +68,7 @@ public class EmployeeConsole {
 
         Employee employee = new Employee(0, name, age, contactInfo, position, employmentDate);
         employeeController.createEmployee(employee);
-        System.out.println("Domain.Employee added successfully.");
+        System.out.println("Employee added successfully.");
     }
 
     private void viewEmployee() {
@@ -76,9 +76,9 @@ public class EmployeeConsole {
         int id = scanner.nextInt();
         Employee employee = employeeController.getEmployeeById(id);
         if (employee != null) {
-            System.out.println("Domain.Employee details: " + employee);
+            System.out.println("Employee details: " + employee);
         } else {
-            System.out.println("Domain.Employee not found.");
+            System.out.println("Employee not found.");
         }
     }
 
@@ -86,10 +86,9 @@ public class EmployeeConsole {
         System.out.print("Enter employee ID to update: ");
         int id = scanner.nextInt();
 
-        // Fetch existing employee details
         Employee existingEmployee = employeeController.getEmployeeById(id);
         if (existingEmployee == null) {
-            System.out.println("Domain.Employee not found.");
+            System.out.println("Employee not found.");
             return;
         }
 
@@ -132,14 +131,14 @@ public class EmployeeConsole {
         }
 
         employeeController.updateEmployee(existingEmployee);        //pass to controller
-        System.out.println("Domain.Employee updated successfully.");
+        System.out.println("Employee updated successfully.");
     }
 
     private void deleteEmployee() {
         System.out.print("Enter employee ID to delete: ");
         int id = scanner.nextInt();
         employeeController.deleteEmployee(id);
-        System.out.println("Domain.Employee deleted successfully.");
+        System.out.println("Employee deleted successfully.");
     }
 
     private void viewAllEmployees() {

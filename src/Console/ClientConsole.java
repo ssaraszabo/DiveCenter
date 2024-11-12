@@ -65,7 +65,7 @@ public class ClientConsole {
 
         Client client = new Client(0, name, age, contactInfo, experienceLevel, isMember);
         clientController.addClient(client);
-        System.out.println("Domain.Client added successfully.");
+        System.out.println("Client added successfully.");
     }
 
     private void viewClient() {
@@ -73,9 +73,9 @@ public class ClientConsole {
         int id = scanner.nextInt();
         Client client = clientController.getClient(id);
         if (client != null) {
-            System.out.println("Domain.Client details: " + client);
+            System.out.println("Client details: " + client);
         } else {
-            System.out.println("Domain.Client not found.");
+            System.out.println("Client not found.");
         }
     }
 
@@ -85,7 +85,7 @@ public class ClientConsole {
 
         Client existingClient = clientController.getClient(id);     //get existing client details
         if (existingClient == null) {
-            System.out.println("Domain.Client not found.");
+            System.out.println("Client not found.");
             return;
         }
 
@@ -129,7 +129,7 @@ public class ClientConsole {
         }
 
         clientController.updateClient(existingClient);              //pass updated client to controller
-        System.out.println("Domain.Client updated successfully.");
+        System.out.println("Client updated successfully.");
     }
 
 
@@ -137,7 +137,7 @@ public class ClientConsole {
             System.out.print("Enter client ID to delete: ");
             int id = scanner.nextInt();
             clientController.deleteClient(id);
-            System.out.println("Domain.Client deleted successfully.");
+            System.out.println("Client deleted successfully.");
         }
 
         private void viewAllClients() {
