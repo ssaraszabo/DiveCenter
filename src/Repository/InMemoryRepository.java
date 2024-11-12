@@ -5,43 +5,50 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Map;
 
-public class InMemoryRepository<T extends Identifiable> implements IRepository<T> {
-    private Map<Integer, T> data = new HashMap<>();
-    private int currentId = 1;
+public class InMemoryRepository<T> implements IRepository<T> {
+    private Map<Integer, T> storage = new HashMap<>();
+    private java.util.function.Function<T, Integer> idExtractor;
+
+    public InMemoryRepository(java.util.function.Function<T, Integer> idExtractor) {    //constructor accepts a lambda to get ID
+        this.idExtractor = idExtractor;
+    }
 
     @Override
-    public void create(T entity) {
-        entity.setId(currentId);
-        data.put(currentId++, entity);
+    public boolean create(T item) {
+        int id = idExtractor.apply(item);
+        if (storage.containsKey(id)) {
+            return false; // ID already exists
+        }
+        storage.put(id, item);
+        return true;
     }
 
     @Override
     public T read(int id) {
-        return data.get(id);
+        return storage.get(id);
     }
 
     @Override
     public List<T> readAll() {
-        return new ArrayList<>(data.values());
+        return new ArrayList<>(storage.values());
     }
 
     @Override
-    public void update(T entity) {
-        int id = entity.getId();
-        if (data.containsKey(id)) {
-            data.put(id, entity);
-        } else {
-            throw new IllegalArgumentException("Entity with ID " + id + " does not exist.");
+    public boolean update(T item) {
+        int id = idExtractor.apply(item);
+        if (!storage.containsKey(id)) {
+            return false; // ID does not exist
         }
+        storage.put(id, item);
+        return true;
     }
 
     @Override
-    public void delete(int id) {
-        data.remove(id);
-    }
-
-    @Override
-    public List<T> getAll() {
-        return new ArrayList<>(data.values());
+    public boolean delete(int id) {
+        if (!storage.containsKey(id)) {
+            return false; // ID does not exist
+        }
+        storage.remove(id);
+        return true;
     }
 }
