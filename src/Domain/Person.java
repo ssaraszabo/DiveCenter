@@ -1,4 +1,6 @@
-public class Person implements Identifiable{
+package Domain;
+
+public class Person implements Identifiable {
     private int id;
     private String name;
     private int age;
@@ -45,6 +47,6 @@ public class Person implements Identifiable{
 
     @Override
     public String toString() {
-        return "Person [id=" + id + ", name=" + name + ", age=" + age + ", contactInfo=" + contactInfo + "]";
+        return "Domain.Person [id=" + id + ", name=" + name + ", age=" + age + ", contactInfo=" + contactInfo + "]";
     }
 }

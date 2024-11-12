@@ -1,3 +1,5 @@
+package Domain;
+
 import java.util.Date;
 
 public class Membership {
@@ -47,7 +49,7 @@ public class Membership {
 
     @Override
     public String toString() {
-        return "Membership [membershipID=" + membershipID + ", startDate=" + startDate + ", endDate=" + endDate +
+        return "Domain.Membership [membershipID=" + membershipID + ", startDate=" + startDate + ", endDate=" + endDate +
                 ", membershipType=" + membershipType + "]";
     }
 }

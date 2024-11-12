@@ -1,3 +1,5 @@
+package Domain;
+
 public class Client extends Person {
     private String experienceLevel;
     private boolean isMember;
@@ -26,6 +28,6 @@ public class Client extends Person {
 
     @Override
     public String toString() {
-        return "Client [experienceLevel=" + experienceLevel + ", isMember=" + isMember + ", " + super.toString() + "]";
+        return "Domain.Client [experienceLevel=" + experienceLevel + ", isMember=" + isMember + ", " + super.toString() + "]";
     }
 }

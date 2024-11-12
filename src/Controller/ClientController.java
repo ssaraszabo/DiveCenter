@@ -1,3 +1,8 @@
+package Controller;
+
+import Domain.Client;
+import Service.ClientService;
+
 import java.util.List;
 
 public class ClientController {

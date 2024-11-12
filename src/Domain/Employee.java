@@ -1,10 +1,12 @@
+package Domain;
+
 import java.util.Date;
 
 public class Employee extends Person {
     private String position;
-    private Date employmentDate;
+    private String employmentDate;
 
-    public Employee(int id, String name, int age, String contactInfo, String position, Date employmentDate) {
+    public Employee(int id, String name, int age, String contactInfo, String position, String employmentDate) {
         super(id, name, age, contactInfo);
         this.position = position;
         this.employmentDate = employmentDate;
@@ -18,16 +20,16 @@ public class Employee extends Person {
         this.position = position;
     }
 
-    public Date getEmploymentDate() {
+    public String getEmploymentDate() {
         return employmentDate;
     }
 
-    public void setEmploymentDate(Date employmentDate) {
+    public void setEmploymentDate(String employmentDate) {
         this.employmentDate = employmentDate;
     }
 
     @Override
     public String toString() {
-        return "Employee [position=" + position + ", employmentDate=" + employmentDate + ", " + super.toString() + "]";
+        return "Domain.Employee [position=" + position + ", employmentDate=" + employmentDate + ", " + super.toString() + "]";
     }
 }

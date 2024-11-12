@@ -1,3 +1,5 @@
+package Domain;
+
 import java.util.Date;
 
 public class Registration {
@@ -37,7 +39,7 @@ public class Registration {
 
     @Override
     public String toString() {
-        return "Registration [registrationID=" + registrationID + ", registrationDate=" + registrationDate +
+        return "Domain.Registration [registrationID=" + registrationID + ", registrationDate=" + registrationDate +
                 ", status=" + status + "]";
     }
 }

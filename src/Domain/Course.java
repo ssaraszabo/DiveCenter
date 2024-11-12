@@ -1,3 +1,5 @@
+package Domain;
+
 import java.util.Date;
 
 public class Course {
@@ -77,7 +79,7 @@ public class Course {
 
     @Override
     public String toString() {
-        return "Course [courseID=" + courseID + ", name=" + name + ", startTime=" + startTime + ", minAge=" + minAge +
+        return "Domain.Course [courseID=" + courseID + ", name=" + name + ", startTime=" + startTime + ", minAge=" + minAge +
                 ", experienceRequired=" + experienceRequired + ", maxCapacity=" + maxCapacity + ", currentCapacity=" +
                 currentCapacity + "]";
     }

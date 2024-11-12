@@ -1,3 +1,8 @@
+package Service;
+
+import Domain.Client;
+import Repository.IRepository;
+
 import java.util.List;
 
 public class ClientService {
