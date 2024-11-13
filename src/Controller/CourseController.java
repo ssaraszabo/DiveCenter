@@ -33,10 +33,6 @@ public class CourseController {
         return courseService.getCourseById(id);
     }
 
-    public Course getCourse(int id) {
-        return courseService.getCourseById(id);
-    }
-
 //    public void displayCourseEquipment(int courseId) {
 //        Equipment equipment = courseService.getEquipment(courseId);
 //        if (equipment != null) {
