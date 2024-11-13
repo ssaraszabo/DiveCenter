@@ -7,25 +7,13 @@ import Console.MembershipConsole;
 import Console.PaymentConsole;
 import Console.ScheduleConsole;
 
-import Controller.ClientController;
-import Controller.CourseController;
-import Controller.EquipmentController;
-import Controller.InvoiceController;
-import Controller.MembershipController;
-import Controller.PaymentController;
-import Controller.ScheduleController;
+import Controller.*;
 
 import Domain.*;
 import Repository.CourseRepository;
 
 import Repository.InMemoryRepository;
-import Service.ClientService;
-import Service.CourseService;
-import Service.EquipmentService;
-import Service.InvoiceService;
-import Service.MembershipService;
-import Service.PaymentService;
-import Service.ScheduleService;
+import Service.*;
 
 import java.util.Scanner;
 
@@ -39,6 +27,7 @@ public class Main {
         InMemoryRepository<Membership> membershipRepository = new InMemoryRepository<>(Membership::getMembershipID);
         InMemoryRepository<Payment> paymentRepository = new InMemoryRepository<>(Payment::getPaymentID);
         InMemoryRepository<Schedule> scheduleRepository = new InMemoryRepository<>(Schedule::getScheduleID);
+        InMemoryRepository<Registration> registrationRepository = new InMemoryRepository<>(Registration::getRegistrationID);
 
         ClientService clientService = new ClientService(clientRepository);
         ClientController clientController = new ClientController(clientService);
@@ -61,6 +50,9 @@ public class Main {
 
         ScheduleService scheduleService = new ScheduleService(scheduleRepository);
         ScheduleController scheduleController = new ScheduleController(scheduleService);
+
+        RegistrationService registrationService = new Registration(registrationRepository);
+        RegistrationController registrationController = new RegistrationController(registrationService);
 
         ClientConsole clientConsole = new ClientConsole(clientController);
         CourseConsole courseConsole = new CourseConsole(courseController);
