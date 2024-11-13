@@ -9,6 +9,7 @@ import Controller.ClientController;
 import Controller.CourseController;
 import Domain.Client;
 import Domain.Course;
+import Domain.Employee;
 import Domain.Registration;
 
 public class RegistrationConsole {
@@ -104,6 +105,7 @@ public class RegistrationConsole {
             System.out.println("Registration not found.");
         }
     }
+
 
     private void updateRegistrationTime() {
         System.out.print("Enter registration ID to update: ");

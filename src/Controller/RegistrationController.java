@@ -1,6 +1,7 @@
 package Controller;
 import Domain.Client;
 import Domain.Course;
+import Domain.Employee;
 import Domain.Registration;
 import Service.RegistrationService;
 
@@ -31,6 +32,6 @@ public class RegistrationController {
     }
 
     public Registration getRegistrationById(int registrationID) {
-        return registrationService.getRegistration(registrationID);
+        return registrationService.getRegistrationID(registrationID);
     }
 }

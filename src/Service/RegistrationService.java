@@ -1,9 +1,6 @@
 package Service;
 
-import Domain.Client;
-import Domain.Course;
-import Domain.Invoice;
-import Domain.Registration;
+import Domain.*;
 import Repository.IRepository;
 
 import java.util.Date;
@@ -83,5 +80,7 @@ public class RegistrationService {
         return client.getexperienceLevel().equalsIgnoreCase(course.getExperienceRequired()) ||
                 course.getExperienceRequired().isEmpty(); // Allow if experience requirement is not specified
     }
+    public int getRegistrationID{return }
+
 }
 
