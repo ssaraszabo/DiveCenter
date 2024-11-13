@@ -4,6 +4,7 @@ import java.util.List;
 import Domain.Client;
 import Domain.Course;
 import Service.CourseService;
+import Domain.Client;
 
 public class CourseController {
     private final CourseService courseService;
@@ -27,6 +28,9 @@ public class CourseController {
         } else {
             System.out.println("Course ID " + courseId + " is full.");
         }
+    }
+    public Course getCourse(int id) {
+        return courseService.getCourseById(id);
     }
 
     public Course getCourse(int id) {
