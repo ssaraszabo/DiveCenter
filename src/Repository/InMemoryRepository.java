@@ -23,7 +23,7 @@ public class InMemoryRepository<T> implements IRepository<T> {
     }
 
     @Override
-    public int read(int id) {
+    public T read(int id) {
         return storage.get(id);
     }
 
