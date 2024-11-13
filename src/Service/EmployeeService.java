@@ -29,6 +29,6 @@ public class EmployeeService {
     }
 
     public List<Employee> getAllEmployees() {
-        return employeeRepository.getAll();
+        return employeeRepository.readAll();
     }
 }
