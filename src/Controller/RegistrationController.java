@@ -30,8 +30,7 @@ public class RegistrationController {
     public List<Registration> listRegistrations() {
         return registrationService.getAllRegistrations();
     }
-
-    public Registration getRegistrationById(int registrationID) {
-        return registrationService.getRegistrationID(registrationID);
+    public Registration getRegistration(int id) {
+        return registrationService.getRegistration(id);
     }
 }

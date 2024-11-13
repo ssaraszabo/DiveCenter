@@ -37,10 +37,6 @@ public class RegistrationService {
         return registration;
     }
 
-    public Registration getRegistration(int registrationID) {
-        return registrationRepository.read(registrationID);
-    }
-
     public List<Registration> getAllRegistrations() {
         return registrationRepository.readAll();
     }
@@ -80,7 +76,8 @@ public class RegistrationService {
         return client.getexperienceLevel().equalsIgnoreCase(course.getExperienceRequired()) ||
                 course.getExperienceRequired().isEmpty(); // Allow if experience requirement is not specified
     }
-    public int getRegistrationID{return }
-
+    public Registration getRegistration(int id) {
+        return registrationRepository.read(id);
+    }
 }
 

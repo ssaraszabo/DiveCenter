@@ -1,5 +1,4 @@
 package Repository;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.ArrayList;
@@ -46,7 +45,7 @@ public class InMemoryRepository<T> implements IRepository<T> {
     @Override
     public boolean delete(int id) {
         if (!storage.containsKey(id)) {
-            return false; // ID does not exist
+            return false;
         }
         storage.remove(id);
         return true;

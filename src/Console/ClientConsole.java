@@ -1,8 +1,10 @@
 package Console;
-
 import Domain.Client;
 import Controller.ClientController;
 
+import javax.swing.text.html.Option;
+import java.net.StandardSocketOptions;
+import java.sql.SQLOutput;
 import java.util.Scanner;
 
 public class ClientConsole {
@@ -61,7 +63,9 @@ public class ClientConsole {
         System.out.print("Enter experience level: ");
         String experienceLevel = scanner.next();
         System.out.print("Is client a member (true/false): ");
-        boolean isMember = scanner.nextBoolean();
+        boolean isMember=false;
+        if (scanner.next().equals("0")) {isMember=false;} else if(scanner.next().equals("1"))  isMember=true; else
+            System.out.println("Invalid");
 
         Client client = new Client(0, name, age, contactInfo, experienceLevel, isMember);
         clientController.addClient(client);

@@ -42,10 +42,10 @@ public class RegistrationConsole {
                     addRegistration();
                     break;
                 case 2:
-                    viewRegistration();
+                    //viewRegistration();
                     break;
                 case 3:
-                    updateRegistrationTime();
+                    //updateRegistrationTime();
                     break;
                 case 4:
                     deleteRegistration();
@@ -97,7 +97,7 @@ public class RegistrationConsole {
     private void viewRegistration() {
         System.out.print("Enter registration ID: ");
         int registrationID = scanner.nextInt();
-        Registration registration = registrationController.getRegistrationById(registrationID);
+        Registration registration = registrationController.getRegistration(registrationID);
 
         if (registration != null) {
             System.out.println("Registration details: " + registration);
@@ -112,7 +112,7 @@ public class RegistrationConsole {
         int registrationID = scanner.nextInt();
         scanner.nextLine(); // Consume newline
 
-        Registration existingRegistration = registrationController.getRegistrationById(registrationID);
+        Registration existingRegistration = registrationController.getRegistration(registrationID);
         if (existingRegistration == null) {
             System.out.println("Registration not found.");
             return;
