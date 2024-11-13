@@ -80,7 +80,6 @@ public class RegistrationService {
         return client.getexperienceLevel().equalsIgnoreCase(course.getExperienceRequired()) ||
                 course.getExperienceRequired().isEmpty(); // Allow if experience requirement is not specified
     }
-    public int getRegistrationID{return }
-
+    public int getRegistrationID(int registrationID) {return registrationRepository.read(registrationID);}
 }
 
