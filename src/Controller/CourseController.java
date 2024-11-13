@@ -1,5 +1,7 @@
 package Controller;
 import java.util.List;
+
+import Domain.Client;
 import Domain.Course;
 import Service.CourseService;
 
@@ -25,6 +27,10 @@ public class CourseController {
         } else {
             System.out.println("Course ID " + courseId + " is full.");
         }
+    }
+
+    public Course getCourse(int id) {
+        return courseService.getCourseById(id);
     }
 
 //    public void displayCourseEquipment(int courseId) {
