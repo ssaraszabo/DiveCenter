@@ -115,7 +115,7 @@ public class ClientConsole {
             existingClient.setContactInfo(contactInfo);
         }
 
-        System.out.print("Enter new experience level (current: " + existingClient.getExperienceLevel() + "): ");
+        System.out.print("Enter new experience level (current: " + existingClient.getexperienceLevel() + "): ");
         String experienceLevel = scanner.nextLine();                //update Experience Level
         if (!experienceLevel.isBlank()) {
             existingClient.setExperienceLevel(experienceLevel);

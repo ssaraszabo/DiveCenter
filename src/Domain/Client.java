@@ -10,7 +10,7 @@ public class Client extends Person {
         this.isMember = isMember;
     }
 
-    public String getExperienceLevel() {
+    public String getexperienceLevel() {
         return experienceLevel;
     }
 

@@ -80,7 +80,7 @@ public class RegistrationService {
             return false;
         }
 
-        return client.getExperienceLevel().equalsIgnoreCase(course.getExperienceRequired()) ||
+        return client.getexperienceLevel().equalsIgnoreCase(course.getExperienceRequired()) ||
                 course.getExperienceRequired().isEmpty(); // Allow if experience requirement is not specified
     }
 }
