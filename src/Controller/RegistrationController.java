@@ -29,4 +29,8 @@ public class RegistrationController {
     public List<Registration> listRegistrations() {
         return registrationService.getAllRegistrations();
     }
+
+    public Registration getRegistrationById(int registrationID) {
+        return registrationService.getRegistration(registrationID);
+    }
 }
