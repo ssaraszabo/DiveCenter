@@ -1,9 +1,13 @@
 package Controller;
 
-import Domain.Client;
-import Service.ClientService;
+import Console.*;
+import Domain.*;
+import Repository.CourseRepository;
+import Repository.InMemoryRepository;
+import Service.*;
 
 import java.util.List;
+import java.util.Scanner;
 
 public class ClientController {
     private ClientService clientService;
@@ -32,3 +36,4 @@ public class ClientController {
         clientService.deleteClient(id);
     }
 }
+

@@ -2,7 +2,7 @@ package Domain;
 import Repository.Identifiable;
 
 public class Person implements Identifiable {
-    private int id;
+    public int id;
     private String name;
     private int age;
     private String contactInfo;

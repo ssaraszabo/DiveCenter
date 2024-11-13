@@ -14,7 +14,7 @@ public class ClientConsole {
             this.scanner = new Scanner(System.in);
         }
 
-        public void displayMenu() {
+        public void showMenu() {
             while (true) {
                 System.out.println("Client Management System:");
                 System.out.println("1. Add Client");
