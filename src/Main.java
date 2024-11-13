@@ -16,6 +16,7 @@ import Repository.InMemoryRepository;
 import Service.*;
 
 import java.util.Scanner;
+import Console.RegistrationConsole;
 
 public class Main {
     public static void main(String[] args) {
@@ -51,7 +52,7 @@ public class Main {
         ScheduleService scheduleService = new ScheduleService(scheduleRepository);
         ScheduleController scheduleController = new ScheduleController(scheduleService);
 
-        RegistrationService registrationService = new Registration(registrationRepository);
+        RegistrationService registrationService = new RegistrationService(registrationRepository);
         RegistrationController registrationController = new RegistrationController(registrationService);
 
         ClientConsole clientConsole = new ClientConsole(clientController);
@@ -61,6 +62,7 @@ public class Main {
         MembershipConsole membershipConsole = new MembershipConsole(membershipController);
         PaymentConsole paymentConsole = new PaymentConsole(paymentController);
         ScheduleConsole scheduleConsole = new ScheduleConsole(scheduleController);
+        RegistrationConsole registrationConsole = new RegistrationConsole(registrationController,clientController,courseController);
 
         while (true) {
             System.out.println("Main Menu");
@@ -71,7 +73,8 @@ public class Main {
             System.out.println("5. Manage Memberships");
             System.out.println("6. Manage Payments");
             System.out.println("7. Manage Schedules");
-            System.out.println("8. Exit");
+            System.out.println("8. Manage Registrations");
+            System.out.println("9. Exit");
             System.out.print("Select an option: ");
 
             int choice = Integer.parseInt(scanner.nextLine());
@@ -99,8 +102,10 @@ public class Main {
                     scheduleConsole.showMenu();
                     break;
                 case 8:
-                    System.out.println("Exiting program.");
+                    registrationConsole.displayMenu();
                     return;
+                case 9:
+                    System.out.println("Exiting program.");
                 default:
                     System.out.println("Invalid choice. Please try again.");
             }

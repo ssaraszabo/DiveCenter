@@ -2,9 +2,11 @@ package Console;
 
 import Domain.Employee;
 import Controller.EmployeeController;
-
+import Domain.Schedule;
+import Controller.ScheduleController;
 import java.util.Scanner;
 import java.util.List;
+import Service.ScheduleService;
 
 public class EmployeeConsole {
     private EmployeeController employeeController;
@@ -65,7 +67,6 @@ public class EmployeeConsole {
         String position = scanner.nextLine();
         System.out.print("Enter employee employment date (YYYY-MM-DD): ");
         String employmentDate = scanner.nextLine();
-
         Employee employee = new Employee(0, name, age, contactInfo, position, employmentDate);
         employeeController.createEmployee(employee);
         System.out.println("Employee added successfully.");
