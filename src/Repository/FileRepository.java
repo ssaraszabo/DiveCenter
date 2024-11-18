@@ -24,4 +24,23 @@ public class FileRepository<T> implements IRepository<T> {
             throw new RuntimeException("Could not create the file: " + filePath, e);
         }
     }
+
+    @Override
+    public boolean create(T obj) {
+        int id = idExtractor.apply(obj);
+
+        if (read(id) != null) {
+            return false;       //entity with the same ID already exists
+        }
+
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(file, true))) {
+            writer.write(toString.apply(obj));
+            writer.newLine();
+            return true;
+        } catch (IOException e) {
+            System.err.println("Error writing to file: " + e.getMessage());
+            return false;
+        }
+    }
+
 }
