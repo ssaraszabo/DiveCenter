@@ -1,7 +1,7 @@
 package Repository;
 
 import java.io.*;
-//import java.util.*;
+import java.util.*;
 import java.util.function.Function;
 
 public class FileRepository<T> implements IRepository<T> {
@@ -43,4 +43,77 @@ public class FileRepository<T> implements IRepository<T> {
         }
     }
 
+    @Override
+    public T read(int id) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                T obj = fromString.apply(line);
+                if (idExtractor.apply(obj) == id) {
+                    return obj;
+                }
+            }
+        } catch (IOException e) {
+            System.err.println("Error reading from file: " + e.getMessage());
+        }
+        return null;        //entity with the given ID not found
+    }
+
+    @Override
+    public List<T> readAll() {
+        List<T> entities = new ArrayList<>();
+        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                entities.add(fromString.apply(line));
+            }
+        } catch (IOException e) {
+            System.err.println("Error reading from file: " + e.getMessage());
+        }
+        return entities;
+    }
+
+    @Override
+    public boolean update(T obj) {
+        int id = idExtractor.apply(obj);
+        List<T> entities = readAll();
+        boolean updated = false;
+
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
+            for (T entity : entities) {
+                if (idExtractor.apply(entity) == id) {
+                    writer.write(toString.apply(obj));
+                    updated = true;
+                } else {
+                    writer.write(toString.apply(entity));
+                }
+                writer.newLine();
+            }
+        } catch (IOException e) {
+            System.err.println("Error writing to file: " + e.getMessage());
+            return false;
+        }
+        return updated;
+    }
+
+    @Override
+    public boolean delete(int id) {
+        List<T> entities = readAll();
+        boolean deleted = false;
+
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
+            for (T entity : entities) {
+                if (idExtractor.apply(entity) == id) {
+                    deleted = true;
+                } else {
+                    writer.write(toString.apply(entity));
+                    writer.newLine();
+                }
+            }
+        } catch (IOException e) {
+            System.err.println("Error writing to file: " + e.getMessage());
+            return false;
+        }
+        return deleted;
+    }
 }
