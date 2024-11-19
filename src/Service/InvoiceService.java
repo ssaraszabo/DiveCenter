@@ -34,18 +34,40 @@ public class InvoiceService {
         );
     }
 
+    /**
+     * Updates an invoice.
+     *
+     * @param invoice The invoice that is to be updated.
+     */
     public boolean updateInvoice(Invoice invoice) {
         return invoiceRepository.update(invoice);
     }
 
+    /**
+     * Deletes an invoice.
+     *
+     * @param invoiceID ID of the invoice that will be deleted.
+     */
     public boolean deleteInvoice(int invoiceID) {
         return invoiceRepository.delete(invoiceID);
     }
 
+
+    /**
+     * Retrieves an invoice by ID.
+     *
+     * @param invoiceID ID of the invoice to be retrieved.
+     * @return Invoice with the specified ID.
+     */
     public Invoice getInvoice(int invoiceID) {
         return invoiceRepository.read(invoiceID);
     }
 
+    /**
+     * Retrieves all invoices.
+     *
+     * @return List of all invoices.
+     */
     public List<Invoice> getAllInvoices() {
         return invoiceRepository.readAll();
     }

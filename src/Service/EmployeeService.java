@@ -40,22 +40,48 @@ public class EmployeeService {
         );
     }
 
+    /**
+     * Adds a new employee to the repository.
+     *
+     * @param employee The employee to add.
+     */
     public void addEmployee(Employee employee) {
         employeeRepository.create(employee);
     }
 
+    /**
+     * Retrieves an employee by id.
+     *
+     * @param id ID of employee to be retrieved.
+     * @return Employee with the specified id.
+     */
     public Employee getEmployeeById(int id) {
         return employeeRepository.read(id);
     }
 
+    /**
+     * Updates the details of an employee.
+     *
+     * @param employee Employee that is to be updated.
+     */
     public void updateEmployee(Employee employee) {
         employeeRepository.update(employee);
     }
 
+    /**
+     * Deletes an employee.
+     *
+     * @param id Id of the employee to be deleted.
+     */
     public void deleteEmployee(int id) {
         employeeRepository.delete(id);
     }
 
+    /**
+     * Retrieves all employees.
+     *
+     * @return List of all employees.
+     */
     public List<Employee> getAllEmployees() {
         return employeeRepository.readAll();
     }
