@@ -40,10 +40,21 @@ public class CourseService {
         );
     }
 
+    /**
+     * Retrieves all courses.
+     *
+     * @return List of all courses.
+     */
     public List<Course> getAllCourses() {
         return courseRepository.readAll();
     }
 
+    /**
+     * Retrieves a course by ID.
+     *
+     * @param courseId ID of the wanted course.
+     * @return Course with the specified iD.
+     */
     public Course getCourseById(int courseId) {
         return courseRepository.read(courseId);
     }
