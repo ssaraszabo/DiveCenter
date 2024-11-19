@@ -5,11 +5,13 @@ import java.util.Date;
 public class Invoice {
     private int invoiceId;
     private int amount;
+    private boolean payed;
     private Date issueDate;
 
-    public Invoice(int invoiceId, int amount, Date issueDate) {
+    public Invoice(int invoiceId, int amount, boolean payed, Date issueDate) {
         this.invoiceId = invoiceId;
         this.amount = amount;
+        this.payed = false;
         this.issueDate = issueDate;
     }
 
@@ -37,8 +39,12 @@ public class Invoice {
         this.issueDate = issueDate;
     }
 
+    public void setPayed(boolean payed) { this.payed = payed; }
+
+    public boolean getPayed() { return payed; }
+
     @Override
     public String toString() {
-        return "Domain.Invoice [invoiceId=" + invoiceId + ", amount=" + amount + ", issueDate=" + issueDate + "]";
+        return "Domain.Invoice [invoiceId=" + invoiceId + ", amount=" + amount + ", issueDate=" + issueDate + ", payed=" + payed + "]";
     }
 }

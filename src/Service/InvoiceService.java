@@ -23,12 +23,14 @@ public class InvoiceService {
                     return new Invoice(
                             Integer.parseInt(parts[0]), //invoiceId
                             Integer.parseInt(parts[1]), //amount
+                            Boolean.parseBoolean(parts[3]),     //
                             new Date(Long.parseLong(parts[2])) //issueDate(as timestamp)
                     );
                 },
                 invoice -> String.join(",",
                         String.valueOf(invoice.getInvoiceId()),
                         String.valueOf(invoice.getAmount()),
+                        String.valueOf(invoice.getPayed()),
                         String.valueOf(invoice.getIssueDate().getTime())
                 )
         );
