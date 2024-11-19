@@ -2,6 +2,7 @@ package Service;
 
 import Domain.*;
 import Repository.IRepository;
+import Repository.FileRepository;
 
 import java.util.Date;
 import java.util.List;
@@ -45,25 +46,25 @@ public class RegistrationService {
                     );
                 },
                 registration -> String.join(",",
-                        String.valueOf(Registration.getRegistrationID()),
-                        String.valueOf(Registration.getRegistrationDate().getTime()),
-                        Registration.getStatus(),
-                        String.valueOf(Registration.getClient().getId()),
-                        Registration.getClient().getName(),
-                        String.valueOf(Registration.getClient().getAge()),
-                        Registration.getClient().getContactInfo(),
-                        Registration.getClient().getexperienceLevel(),
-                        String.valueOf(Registration.getClient().isMember()),
-                        String.valueOf(Registration.getCourse().getCourseID()),
-                        Registration.getCourse().getName(),
-                        String.valueOf(Registration.getCourse().getStartTime().getTime()),
-                        String.valueOf(Registration.getCourse().getMinAge()),
-                        Registration.getCourse().getExperienceRequired(),
-                        String.valueOf(Registration.getCourse().getMaxCapacity()),
-                        String.valueOf(Registration.getCourse().getCurrentCapacity()),
-                        String.valueOf(Registration.getInvoice().getInvoiceId()),
-                        String.valueOf(Registration.getInvoice().getAmount()),
-                        String.valueOf(Registration.getInvoice().getIssueDate().getTime())
+                        String.valueOf(registration.getRegistrationID()),
+                        String.valueOf(registration.getRegistrationDate().getTime()),
+                        registration.getStatus(),
+                        String.valueOf(registration.getClient().getId()),
+                        registration.getClient().getName(),
+                        String.valueOf(registration.getClient().getAge()),
+                        registration.getClient().getContactInfo(),
+                        registration.getClient().getexperienceLevel(),
+                        String.valueOf(registration.getClient().isMember()),
+                        String.valueOf(registration.getCourse().getCourseID()),
+                        registration.getCourse().getName(),
+                        String.valueOf(registration.getCourse().getStartTime().getTime()),
+                        String.valueOf(registration.getCourse().getMinAge()),
+                        registration.getCourse().getExperienceRequired(),
+                        String.valueOf(registration.getCourse().getMaxCapacity()),
+                        String.valueOf(registration.getCourse().getCurrentCapacity()),
+                        String.valueOf(registration.getInvoice().getInvoiceId()),
+                        String.valueOf(registration.getInvoice().getAmount()),
+                        String.valueOf(registration.getInvoice().getIssueDate().getTime())
                 )
         );
     }

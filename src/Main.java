@@ -12,9 +12,12 @@ import Controller.*;
 import Domain.*;
 import Repository.CourseRepository;
 
+import Repository.FileRepository;
+import Repository.IRepository;
 import Repository.InMemoryRepository;
 import Service.*;
 
+import java.util.Date;
 import java.util.Scanner;
 import Console.RegistrationConsole;
 
@@ -22,18 +25,215 @@ public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
-        InMemoryRepository<Client> clientRepository = new InMemoryRepository<>(Client::getId);
-        InMemoryRepository<Equipment> equipmentRepository = new InMemoryRepository<>(Equipment::getEquipmentID);
-        InMemoryRepository<Invoice> invoiceRepository = new InMemoryRepository<>(Invoice::getInvoiceId);
-        InMemoryRepository<Membership> membershipRepository = new InMemoryRepository<>(Membership::getMembershipID);
-        InMemoryRepository<Payment> paymentRepository = new InMemoryRepository<>(Payment::getPaymentID);
-        InMemoryRepository<Schedule> scheduleRepository = new InMemoryRepository<>(Schedule::getScheduleID);
-        InMemoryRepository<Registration> registrationRepository = new InMemoryRepository<>(Registration::getRegistrationID);
+//        InMemoryRepository<Client> clientRepository = new InMemoryRepository<>(Client::getId);
+//        InMemoryRepository<Equipment> equipmentRepository = new InMemoryRepository<>(Equipment::getEquipmentID);
+//        InMemoryRepository<Invoice> invoiceRepository = new InMemoryRepository<>(Invoice::getInvoiceId);
+//        InMemoryRepository<Membership> membershipRepository = new InMemoryRepository<>(Membership::getMembershipID);
+//        InMemoryRepository<Payment> paymentRepository = new InMemoryRepository<>(Payment::getPaymentID);
+//        InMemoryRepository<Schedule> scheduleRepository = new InMemoryRepository<>(Schedule::getScheduleID);
+//        InMemoryRepository<Registration> registrationRepository = new InMemoryRepository<>(Registration::getRegistrationID);
+        IRepository<Client> clientRepository = new FileRepository<>(
+                "clients.txt",
+                Client::getId,
+                line -> {
+                    String[] parts = line.split(",");
+                    return new Client(
+                            Integer.parseInt(parts[0]),
+                            parts[1],
+                            Integer.parseInt(parts[2]),
+                            parts[3],
+                            parts[4],
+                            Boolean.parseBoolean(parts[5])
+                    );
+                },
+                client -> String.join(",",
+                        String.valueOf(client.getId()),
+                        client.getName(),
+                        String.valueOf(client.getAge()),
+                        client.getContactInfo(),
+                        client.getexperienceLevel(),
+                        String.valueOf(client.isMember())
+                )
+        );
+        IRepository<Course> courseRepository = new FileRepository<>(
+                "courses.txt",
+                Course::getCourseID,
+                line -> {
+                    String[] parts = line.split(",");
+                    return new Course(
+                            Integer.parseInt(parts[0]),
+                            parts[1],
+                            new Date(Long.parseLong(parts[2])),
+                            Integer.parseInt(parts[3]),
+                            parts[4],
+                            Integer.parseInt(parts[5]),
+                            Integer.parseInt(parts[6])
+                    );
+                },
+                course -> String.join(",",
+                        String.valueOf(course.getCourseID()),
+                        course.getName(),
+                        String.valueOf(course.getStartTime().getTime()),
+                        String.valueOf(course.getMinAge()),
+                        course.getExperienceRequired(),
+                        String.valueOf(course.getMaxCapacity()),
+                        String.valueOf(course.getCurrentCapacity())
+                )
+        );
+        IRepository<Equipment> equipmentRepository = new FileRepository<>(
+                "equipment.txt",
+                Equipment::getEquipmentID,
+                line -> {
+                    String[] parts = line.split(",");
+                    return new Equipment(
+                            Integer.parseInt(parts[0]), //equipmentID
+                            parts[1],                   //type
+                            Integer.parseInt(parts[2]), //condition
+                            new Date(Long.parseLong(parts[3])) //lastMaintenanceDate(as timestamp)
+                    );
+                },
+                equipment -> String.join(",",
+                        String.valueOf(equipment.getEquipmentID()),
+                        equipment.getType(),
+                        String.valueOf(equipment.getCondition()),
+                        String.valueOf(equipment.getLastmaintainancedate().getTime())
+                )
+        );
+        IRepository<Invoice> invoiceRepository = new FileRepository<>(
+                "invoices.txt",
+                Invoice::getInvoiceId,
+                line -> {
+                    String[] parts = line.split(",");
+                    return new Invoice(
+                            Integer.parseInt(parts[0]), //invoiceId
+                            Integer.parseInt(parts[1]), //amount
+                            new Date(Long.parseLong(parts[2])) //issueDate(as timestamp)
+                    );
+                },
+                invoice -> String.join(",",
+                        String.valueOf(invoice.getInvoiceId()),
+                        String.valueOf(invoice.getAmount()),
+                        String.valueOf(invoice.getIssueDate().getTime())
+                )
+        );
+        IRepository<Membership> membershipRepository = new FileRepository<>(
+                "memberships.txt",
+                Membership::getMembershipID,
+                line -> {
+                    String[] parts = line.split(",");
+                    return new Membership(
+                            Integer.parseInt(parts[0]),         //membershipID
+                            new Date(Long.parseLong(parts[1])), //startDate (as timestamp)
+                            new Date(Long.parseLong(parts[2])), //endDate (as timestamp)
+                            parts[3]                            //membershipType
+                    );
+                },
+                membership -> String.join(",",
+                        String.valueOf(membership.getMembershipID()),
+                        String.valueOf(membership.getStartDate().getTime()),
+                        String.valueOf(membership.getEndDate().getTime()),
+                        membership.getMembershipType()
+                )
+        );
+        IRepository<Payment> paymentRepository = new FileRepository<>(
+                "payments.txt",
+                Payment::getPaymentID,
+                line -> {
+                    String[] parts = line.split(",");
+                    return new Payment(
+                            Integer.parseInt(parts[0]),     //paymentID
+                            Integer.parseInt(parts[1]),     //membershipID
+                            Double.parseDouble(parts[2]),   //amount
+                            new Date(Long.parseLong(parts[3])) //paymentDate (as timestamp)
+                    );
+                },
+                payment -> String.join(",",
+                        String.valueOf(payment.getPaymentID()),
+                        String.valueOf(payment.getMembershipID()),
+                        String.valueOf(payment.getAmount()),
+                        String.valueOf(payment.getPaymentDate().getTime())
+                )
+        );
+        IRepository<Registration> registrationRepository = new FileRepository<>(
+                "registrations.txt",
+                registration -> registration.getRegistrationID(),
+                line -> {
+                    String[] parts = line.split(",");
+                    return new Registration(
+                            Integer.parseInt(parts[0]),         //registrationID
+                            new Date(Long.parseLong(parts[1])), //registrationDate (as timestamp)
+                            parts[2],                           //status
+                            new Client(
+                                    Integer.parseInt(parts[3]), //clientID
+                                    parts[4],                   //clientName
+                                    Integer.parseInt(parts[5]), //clientAge
+                                    parts[6],                   //clientContactInfo
+                                    parts[7],                   //clientExperienceLevel
+                                    Boolean.parseBoolean(parts[8]) //isMember
+                            ),
+                            new Course(
+                                    Integer.parseInt(parts[9]),     //courseID
+                                    parts[10],                      //courseName
+                                    new Date(Long.parseLong(parts[11])), //courseStartTime
+                                    Integer.parseInt(parts[12]),    //minAge
+                                    parts[13],                      //experienceRequired
+                                    Integer.parseInt(parts[14]),    //maxCapacity
+                                    Integer.parseInt(parts[15])     //currentCapacity
+                            ),
+                            new Invoice(
+                                    Integer.parseInt(parts[16]),    //invoiceID
+                                    Integer.parseInt(parts[17]),    //amount
+                                    new Date(Long.parseLong(parts[18])) //issueDate
+                            )
+                    );
+                },
+                registration -> String.join(",",
+                        String.valueOf(registration.getRegistrationID()),
+                        String.valueOf(registration.getRegistrationDate().getTime()),
+                        registration.getStatus(),
+                        String.valueOf(registration.getClient().getId()),
+                        registration.getClient().getName(),
+                        String.valueOf(registration.getClient().getAge()),
+                        registration.getClient().getContactInfo(),
+                        registration.getClient().getexperienceLevel(),
+                        String.valueOf(registration.getClient().isMember()),
+                        String.valueOf(registration.getCourse().getCourseID()),
+                        registration.getCourse().getName(),
+                        String.valueOf(registration.getCourse().getStartTime().getTime()),
+                        String.valueOf(registration.getCourse().getMinAge()),
+                        registration.getCourse().getExperienceRequired(),
+                        String.valueOf(registration.getCourse().getMaxCapacity()),
+                        String.valueOf(registration.getCourse().getCurrentCapacity()),
+                        String.valueOf(registration.getInvoice().getInvoiceId()),
+                        String.valueOf(registration.getInvoice().getAmount()),
+                        String.valueOf(registration.getInvoice().getIssueDate().getTime())
+                )
+        );
+        IRepository<Schedule> scheduleRepository = new FileRepository<>(
+                "schedules.txt",
+                Schedule::getScheduleID,
+                line -> {
+                    String[] parts = line.split(",");
+                    return new Schedule(
+                            Integer.parseInt(parts[0]),         //scheduleID
+                            Integer.parseInt(parts[1]),         //employeeID
+                            new Date(Long.parseLong(parts[2])), //startTime
+                            new Date(Long.parseLong(parts[3])) //endTime
+                    );
+                },
+                schedule -> String.join(",",
+                        String.valueOf(schedule.getScheduleID()),
+                        String.valueOf(schedule.getEmployeeID()),
+                        String.valueOf(schedule.getStartTime().getTime()),
+                        String.valueOf(schedule.getEndTime().getTime())
+                )
+        );
+
 
         ClientService clientService = new ClientService(clientRepository);
         ClientController clientController = new ClientController(clientService);
 
-        CourseRepository courseRepository = new CourseRepository();
+//        CourseRepository courseRepository = new CourseRepository();
         CourseService courseService = new CourseService(courseRepository);
         CourseController courseController = new CourseController(courseService);
 
