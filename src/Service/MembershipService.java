@@ -36,22 +36,48 @@ public class MembershipService {
         );
     }
 
+    /**
+     * Adds a new membership to the repository.
+     *
+     * @param membership The membership to add.
+     */
     public boolean addMembership(Membership membership) {
         return membershipRepository.create(membership);
     }
 
+    /**
+     * Updates a membership.
+     *
+     * @param membership The membership to update.
+     */
     public boolean updateMembership(Membership membership) {
         return membershipRepository.update(membership);
     }
 
+    /**
+     * Deletes a membership.
+     *
+     * @param membershipID ID of the membership that is to be deleted.
+     */
     public boolean deleteMembership(int membershipID) {
         return membershipRepository.delete(membershipID);
     }
 
+    /**
+     * Retrieves a membership by ID.
+     *
+     * @param membershipID ID of the wanted membership.
+     * @return The membership with the specified ID.
+     */
     public Membership getMembership(int membershipID) {
         return membershipRepository.read(membershipID);
     }
 
+    /**
+     * Retrieves all memberships.
+     *
+     * @return List of all memberships.
+     */
     public List<Membership> getAllMemberships() {
         return membershipRepository.readAll();
     }
