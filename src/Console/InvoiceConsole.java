@@ -64,10 +64,10 @@ public class InvoiceConsole {
             return;
         }
 
-        System.out.print("Enter New Amount: ");
-        int amount = Integer.parseInt(scanner.nextLine());
+        System.out.print("Enter New Payment Status: ");
+        boolean payed = Boolean.parseBoolean(scanner.nextLine());
 
-        existingInvoice.setAmount(amount);
+        existingInvoice.setPayed(payed);
 
         if (invoiceController.updateInvoice(existingInvoice)) {
             System.out.println("Invoice updated successfully.");
