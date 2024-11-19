@@ -1,10 +1,11 @@
 package Console;
 import Domain.Client;
 import Controller.ClientController;
-
+import Domain.Course;
 import javax.swing.text.html.Option;
 import java.net.StandardSocketOptions;
 import java.sql.SQLOutput;
+import java.util.List;
 import java.util.Scanner;
 
 public class ClientConsole {
@@ -24,7 +25,9 @@ public class ClientConsole {
                 System.out.println("3. Update Client");
                 System.out.println("4. Delete Client");
                 System.out.println("5. View All Clients");
-                System.out.println("6. Exit");
+                System.out.println("6. All Clients with Memberships");
+                System.out.println("7. Filter Clients by Experience Level");
+                System.out.println("8. Exit");
                 System.out.print("Enter choice: ");
                 int choice = scanner.nextInt();
 
@@ -38,17 +41,49 @@ public class ClientConsole {
                     case 3:
                         updateClient();
                         break;
-                case 4:
-                    deleteClient();
-                    break;
-                case 5:
-                    viewAllClients();
-                    break;
-                case 6:
+                    case 4:
+                        deleteClient();
+                        break;
+                    case 5:
+                        viewAllClients();
+                        break;
+                    case 6:
+                        viewClientsWithMembership();
+                        break;
+                    case 7:
+                        viewClientsbyExperiencelevel();
+                        break;
+                    case 8:
                     System.out.println("Exiting...");
                     return;
-                default:
+                    default:
                     System.out.println("Invalid choice. Please try again.");
+            }
+        }
+    }
+
+    private void viewClientsbyExperiencelevel() {
+        System.out.print("Enter experience level: ");
+        String exp = scanner.next();
+        List<Client> filteredclients = clientController.getClientsbyExp(exp);
+        if (filteredclients.isEmpty()) {
+            System.out.println("No clients available.");
+        } else {
+            System.out.println("Clients with " + exp + " experience");
+            for (Client client : filteredclients) {
+                System.out.println(client);
+            }
+        }
+    }
+
+    private void viewClientsWithMembership() {
+        List<Client> filteredclients = clientController.getClientsbyMembership();
+        if (filteredclients.isEmpty()) {
+            System.out.println("No clients available.");
+        } else {
+            System.out.println("All Clients with Memberships:");
+            for (Client client : filteredclients) {
+                System.out.println(client);
             }
         }
     }

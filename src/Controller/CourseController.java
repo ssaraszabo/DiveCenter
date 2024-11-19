@@ -29,9 +29,6 @@ public class CourseController {
             System.out.println("Course ID " + courseId + " is full.");
         }
     }
-    public Course getCourse(int id) {
-        return courseService.getCourseById(id);
-    }
 
     public Course getCourse(int id) {
         return courseService.getCourseById(id);
@@ -39,5 +36,13 @@ public class CourseController {
 
     public List<Course> getAllCourses() {
         return courseService.getAllCourses();
+    }
+
+    public List<Course> getCoursebyAge() {
+        return courseService.sortCoursesByMinAge();
+    }
+
+    public List<Course> getCoursebySlots() {
+        return courseService.sortCoursesByAvailableSlots();
     }
 }

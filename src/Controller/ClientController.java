@@ -31,4 +31,12 @@ public class ClientController {
     public void deleteClient(int id) {
         clientService.deleteClient(id);
     }
+
+    public List<Client> getClientsbyExp(String exp) {
+        return clientService.filterClientsByExperienceLevel(exp);
+    }
+
+    public List<Client> getClientsbyMembership() {
+        return clientService.filterClientsWithMembership();
+    }
 }
