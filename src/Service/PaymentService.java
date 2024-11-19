@@ -37,22 +37,48 @@ public class PaymentService {
         );
     }
 
+    /**
+     * Adds a new payment to the repository.
+     *
+     * @param payment The payment to add.
+     */
     public boolean addPayment(Payment payment) {
         return paymentRepository.create(payment);
     }
 
+    /**
+     * Updates a payment.
+     *
+     * @param payment The payment to be updated.
+     */
     public boolean updatePayment(Payment payment) {
         return paymentRepository.update(payment);
     }
 
+    /**
+     * Deletes a payment from the repository.
+     *
+     * @param paymentID The schedule to add.
+     */
     public boolean deletePayment(int paymentID) {
         return paymentRepository.delete(paymentID);
     }
 
+    /**
+     * Retrieves a payment by ID.
+     *
+     * @param paymentID ID of the wanted payment.
+     * @return The payment with the specified ID.
+     */
     public Payment getPayment(int paymentID) {
         return paymentRepository.read(paymentID);
     }
 
+    /**
+     * Retrieves all payments.
+     *
+     * @return List of all payments.
+     */
     public List<Payment> getAllPayments() {
         return paymentRepository.readAll();
     }
