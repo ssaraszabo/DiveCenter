@@ -36,24 +36,53 @@ public class EquipmentService {
         );
     }
 
+    /**
+     * Adds new equipment to the repository.
+     *
+     * @param equipmentID ID of new equipment.
+     * @param type Type of new equipment.
+     * @param condition Condition of new equipment.
+     * @param lastMaintainanceDate Last maintainance date for new equipment.
+     */
     public Equipment addEquipment(int equipmentID, String type, int condition, Date lastMaintainanceDate) {
         Equipment equipment = new Equipment(equipmentID, type, condition, lastMaintainanceDate);
         equipmentRepository.create(equipment);
         return equipment;
     }
 
+    /**
+     * Updates an equipment.
+     *
+     * @param equipment Equipment that is to be updated.
+     */
     public boolean updateEquipment(Equipment equipment) {
         return equipmentRepository.update(equipment);
     }
 
+    /**
+     * Deletes an equipment.
+     *
+     * @param equipmentID ID of equipment that is to be deleted.
+     */
     public boolean deleteEquipment(int equipmentID) {
         return equipmentRepository.delete(equipmentID);
     }
 
+    /**
+     * Retrieves equipment by id.
+     *
+     * @param equipmentID ID of the wanted equipment.
+     * @return The equipment with the specified id.
+     */
     public Equipment getEquipment(int equipmentID) {
         return equipmentRepository.read(equipmentID);
     }
 
+    /**
+     * Retrieves all equipments.
+     *
+     * @return List of all equipments.
+     */
     public List<Equipment> getAllEquipment() {
         return equipmentRepository.readAll();
     }
