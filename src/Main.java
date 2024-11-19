@@ -103,14 +103,16 @@ public class Main {
                 line -> {
                     String[] parts = line.split(",");
                     return new Invoice(
-                            Integer.parseInt(parts[0]), //invoiceId
-                            Integer.parseInt(parts[1]), //amount
+                            Integer.parseInt(parts[0]),         //invoiceId
+                            Integer.parseInt(parts[1]),         //amount
+                            Boolean.parseBoolean(parts[3]),     //payment
                             new Date(Long.parseLong(parts[2])) //issueDate(as timestamp)
                     );
-                },
+                    },
                 invoice -> String.join(",",
                         String.valueOf(invoice.getInvoiceId()),
                         String.valueOf(invoice.getAmount()),
+                        String.valueOf(invoice.getPayed()),
                         String.valueOf(invoice.getIssueDate().getTime())
                 )
         );
@@ -179,9 +181,10 @@ public class Main {
                                     Integer.parseInt(parts[15])     //currentCapacity
                             ),
                             new Invoice(
-                                    Integer.parseInt(parts[16]),    //invoiceID
-                                    Integer.parseInt(parts[17]),    //amount
-                                    new Date(Long.parseLong(parts[18])) //issueDate
+                                    Integer.parseInt(parts[16]),         //invoiceId
+                                    Integer.parseInt(parts[17]),         //amount
+                                    Boolean.parseBoolean(parts[18]),     //payment
+                                    new Date(Long.parseLong(parts[19])) //issueDate(as timestamp)
                             )
                     );
                 },

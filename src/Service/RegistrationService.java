@@ -42,9 +42,10 @@ public class RegistrationService {
                                     Integer.parseInt(parts[15])     //currentCapacity
                             ),
                             new Invoice(
-                                    Integer.parseInt(parts[16]),    //invoiceID
-                                    Integer.parseInt(parts[17]),    //amount
-                                    new Date(Long.parseLong(parts[18])) //issueDate
+                                    Integer.parseInt(parts[16]),         //invoiceId
+                                    Integer.parseInt(parts[17]),         //amount
+                                    Boolean.parseBoolean(parts[18]),     //payment
+                                    new Date(Long.parseLong(parts[19])) //issueDate(as timestamp)
                             )
                     );
                 },
@@ -93,7 +94,8 @@ public class RegistrationService {
 
         Date registrationDate = new Date();
         int invoiceID = generateInvoiceID();
-        Invoice invoice = new Invoice(invoiceID, amount, registrationDate);
+        boolean payed = false;
+        Invoice invoice = new Invoice(invoiceID, amount, payed, registrationDate);
 
         String status = "Active";
 
