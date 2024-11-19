@@ -42,10 +42,10 @@ public class RegistrationConsole {
                     addRegistration();
                     break;
                 case 2:
-                    //viewRegistration();
+                    viewRegistration();
                     break;
                 case 3:
-                    //updateRegistrationTime();
+                    updateRegistrationTime();
                     break;
                 case 4:
                     deleteRegistration();
