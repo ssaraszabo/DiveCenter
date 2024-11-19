@@ -12,6 +12,9 @@ public class RegistrationService {
 
     public RegistrationService(IRepository<Registration> registrationRepository) {
         //this.registrationRepository = registrationRepository;
+        /**
+         * Initializes a new instance of RegistrationService with a FileRepository.
+         */
         this.registrationRepository = new FileRepository<>(
                 "registrations.txt",
                 Registration::getRegistrationID,
@@ -68,7 +71,15 @@ public class RegistrationService {
                 )
         );
     }
-
+    /**
+     * Adds a new registration to the repository.
+     *
+     * @param registrationID,  Id of registration.
+     * @param client Client that is linked to the registration.
+     * @param course Course that Client is registered for.
+     * @param amount Price of Course.
+     * @return The registration.
+     */
     public Registration createRegistration(int registrationID, Client client, Course course, int amount) throws IllegalStateException {
         if (!isEligible(client, course)) {
             throw new IllegalStateException("Client does not meet the age or experience requirements for the course.");
@@ -93,14 +104,20 @@ public class RegistrationService {
         return registration;
     }
 
+    /**
+     * Retrieves all registrations.
+     *
+     * @return All registrations with their details.
+     */
     public List<Registration> getAllRegistrations() {
         return registrationRepository.readAll();
     }
 
-    public void updateRegistration(Registration registration) {
-        registrationRepository.update(registration);
-    }
-
+    /**
+     * Deletes a registration by its ID.
+     *
+     * @param registrationID The ID of the registration to delete.
+     */
     public void deleteRegistration(int registrationID) {
         Registration registrationToDelete = registrationRepository.read(registrationID);
         if (registrationToDelete != null) {
@@ -112,6 +129,12 @@ public class RegistrationService {
         }
     }
 
+    /**
+     * Updates an existing registration in the repository.
+     *
+     * @param registrationID The ID of the registration.
+     * @param newTime Updated time of registration.
+     */
     public void updateRegistration(int registrationID, Date newTime) {
         Registration registration = registrationRepository.read(registrationID);
         if (registration != null) {
@@ -120,10 +143,19 @@ public class RegistrationService {
         }
     }
 
+    /**
+     * Creates Invoice for the registration.
+     */
     private int generateInvoiceID() {
         return registrationRepository.readAll().size() + 1;
     }
 
+    /**
+     * Checks if a client is eligible for a course.
+     *
+     * @param client Client that wants to register.
+     * @param course Course that client wants to register for.
+     */
     private boolean isEligible(Client client, Course course) {
         if (client.getAge() < course.getMinAge()) {
             return false;

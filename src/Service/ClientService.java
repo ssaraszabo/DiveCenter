@@ -11,6 +11,9 @@ public class ClientService {
 
     public ClientService(IRepository<Client> clientRepository) {
         //this.clientRepository = clientRepository;
+        /**
+         * Initializes a new instance of ClientService with a FileRepository.
+         */
         this.clientRepository = new FileRepository<>(
                 "clients.txt",
                 Client::getId,

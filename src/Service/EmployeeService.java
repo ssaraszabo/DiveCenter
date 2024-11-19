@@ -12,6 +12,9 @@ public class EmployeeService {
     public EmployeeService(IRepository<Employee> employeeRepository) {
 
         //this.employeeRepository = employeeRepository;
+        /**
+         * Initializes a new instance of EmployeeService with a FileRepository.
+         */
         this.employeeRepository = new FileRepository<>(
                 "employees.txt",
                 Employee::getId,

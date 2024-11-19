@@ -12,6 +12,9 @@ public class MembershipService {
 
     public MembershipService(IRepository<Membership> membershipRepository) {
         //this.membershipRepository = membershipRepository;
+        /**
+         * Initializes a new instance of MembershipService with a FileRepository.
+         */
         this.membershipRepository = new FileRepository<>(
                 "memberships.txt",
                 Membership::getMembershipID,

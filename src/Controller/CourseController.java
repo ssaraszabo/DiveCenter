@@ -33,12 +33,11 @@ public class CourseController {
         return courseService.getCourseById(id);
     }
 
-//    public void displayCourseEquipment(int courseId) {
-//        Equipment equipment = courseService.getEquipment(courseId);
-//        if (equipment != null) {
-//            System.out.println("Equipment for Course ID " + courseId + ": " + equipment);
-//        } else {
-//            System.out.println("No equipment associated with Course ID " + courseId);
-//        }
-//    }
+    public Course getCourse(int id) {
+        return courseService.getCourseById(id);
+    }
+
+    public List<Course> getAllCourses() {
+        return courseService.getAllCourses();
+    }
 }
