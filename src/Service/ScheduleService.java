@@ -12,6 +12,9 @@ public class ScheduleService {
     public ScheduleService(IRepository<Schedule> scheduleRepository) {
 
         //this.scheduleRepository = scheduleRepository;
+        /**
+         * Initializes a new instance of ScheduleService with a FileRepository.
+         */
         this.scheduleRepository = new FileRepository<>(
                 "schedules.txt",
                 Schedule::getScheduleID,
@@ -32,23 +35,48 @@ public class ScheduleService {
                 )
         );
     }
-
+    /**
+     * Adds a new schedule to the repository.
+     *
+     * @param schedule The schedule to add.
+     */
     public boolean addSchedule(Schedule schedule) {
         return scheduleRepository.create(schedule);
     }
 
+    /**
+     * Updates an existing schedule in the repository.
+     *
+     * @param schedule The schedule with updated information.
+     */
     public boolean updateSchedule(Schedule schedule) {
         return scheduleRepository.update(schedule);
     }
 
+    /**
+     * Deletes a schedule by its ID.
+     *
+     * @param scheduleID The ID of the schedule to delete.
+     */
     public boolean deleteSchedule(int scheduleID) {
         return scheduleRepository.delete(scheduleID);
     }
 
+    /**
+     * Retrieves a schedule by its ID.
+     *
+     * @param scheduleID The ID of the schedule.
+     * @return The schedule with the given ID, or null if not found.
+     */
     public Schedule getSchedule(int scheduleID) {
         return scheduleRepository.read(scheduleID);
     }
 
+    /**
+     * Retrieves all schedules from the repository.
+     *
+     * @return A list of all schedules.
+     */
     public List<Schedule> getAllSchedules() {
         return scheduleRepository.readAll();
     }

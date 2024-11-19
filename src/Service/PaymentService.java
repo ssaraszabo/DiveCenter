@@ -13,6 +13,9 @@ public class PaymentService {
     public PaymentService(IRepository<Payment> paymentRepository) {
 
         //this.paymentRepository = paymentRepository;
+        /**
+         * Initializes a new instance of PaymentService with a FileRepository.
+         */
         this.paymentRepository = new FileRepository<>(
                 "payments.txt",
                 Payment::getPaymentID,

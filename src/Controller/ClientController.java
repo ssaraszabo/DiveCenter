@@ -1,13 +1,9 @@
 package Controller;
 
-import Console.*;
 import Domain.*;
-import Repository.CourseRepository;
-import Repository.InMemoryRepository;
 import Service.*;
 
 import java.util.List;
-import java.util.Scanner;
 
 public class ClientController {
     private ClientService clientService;

@@ -12,6 +12,9 @@ public class EquipmentService {
 
     public EquipmentService(IRepository<Equipment> equipmentRepository) {
         //this.equipmentRepository = equipmentRepository;
+        /**
+         * Initializes a new instance of EquipmentService with a FileRepository.
+         */
         this.equipmentRepository = new FileRepository<>(
                 "equipment.txt",
                 Equipment::getEquipmentID,

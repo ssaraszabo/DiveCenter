@@ -12,6 +12,9 @@ public class InvoiceService {
 
     public InvoiceService(IRepository<Invoice> invoiceRepository) {
         //this.invoiceRepository = invoiceRepository;
+        /**
+         * Initializes a new instance of InvoiceService with a FileRepository.
+         */
         this.invoiceRepository = new FileRepository<>(
                 "invoices.txt",
                 Invoice::getInvoiceId,
