@@ -19,7 +19,7 @@ public class Registration {
         this.invoice = invoice;
     }
 
-    public int getRegistrationID() {
+    public static int getRegistrationID() {
         return registrationID;
     }
 
@@ -27,7 +27,7 @@ public class Registration {
         this.registrationID = registrationID;
     }
 
-    public Date getRegistrationDate() {
+    public static Date getRegistrationDate() {
         return registrationDate;
     }
 
@@ -35,7 +35,7 @@ public class Registration {
         this.registrationDate = registrationDate;
     }
 
-    public String getStatus() {
+    public static String getStatus() {
         return status;
     }
 
@@ -43,7 +43,7 @@ public class Registration {
         this.status = status;
     }
 
-    public Client getClient() {
+    public static Client getClient() {
         return client;
     }
 
@@ -51,7 +51,7 @@ public class Registration {
         this.client = client;
     }
 
-    public Course getCourse() {
+    public static Course getCourse() {
         return course;
     }
 
@@ -59,7 +59,7 @@ public class Registration {
         this.course = course;
     }
 
-    public Invoice getInvoice() {
+    public static Invoice getInvoice() {
         return invoice;
     }
 
