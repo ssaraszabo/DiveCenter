@@ -23,8 +23,8 @@ public class CourseConsole {
             System.out.println("Course Management");
             System.out.println("1. View Course");
             System.out.println("2. View All Courses");
-            System.out.println("3. View Courses sorted by Age");
-            System.out.println("4. View Courses sorted by free Slots");
+            System.out.println("3. View Courses sorted by free Slots");
+            System.out.println("4. View Courses sorted by Age");
             System.out.println("5. Exit");
             System.out.print("Enter your choice: ");
 
