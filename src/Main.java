@@ -30,6 +30,30 @@ public class Main {
 //        InMemoryRepository<Payment> paymentRepository = new InMemoryRepository<>(Payment::getPaymentID);
 //        InMemoryRepository<Schedule> scheduleRepository = new InMemoryRepository<>(Schedule::getScheduleID);
 //        InMemoryRepository<Registration> registrationRepository = new InMemoryRepository<>(Registration::getRegistrationID);
+
+        IRepository<Employee> employeeRepository = new FileRepository<>(
+                "employees.txt",
+                Employee::getId,
+                line -> {
+                    String[] parts = line.split(",");
+                    return new Employee(
+                            Integer.parseInt(parts[0]), //id
+                            parts[1],                   //name
+                            Integer.parseInt(parts[2]), //age
+                            parts[3],                   //contactInfo
+                            parts[4],                   //position
+                            parts[5]                    //employmentDate
+                    );
+                },
+                employee -> String.join(",",
+                        String.valueOf(employee.getId()),
+                        employee.getName(),
+                        String.valueOf(employee.getAge()),
+                        employee.getContactInfo(),
+                        employee.getPosition(),
+                        employee.getEmploymentDate()
+                )
+        );
         IRepository<Client> clientRepository = new FileRepository<>(
                 "clients.txt",
                 Client::getId,
@@ -230,11 +254,12 @@ public class Main {
                 )
         );
 
+        EmployeeService employeeService = new EmployeeService(employeeRepository);
+        EmployeeController employeeController = new EmployeeController(employeeService);
 
         ClientService clientService = new ClientService(clientRepository);
         ClientController clientController = new ClientController(clientService);
 
-//        CourseRepository courseRepository = new CourseRepository();
         CourseService courseService = new CourseService(courseRepository);
         CourseController courseController = new CourseController(courseService);
 
@@ -307,6 +332,7 @@ public class Main {
                     return;
                 case 9:
                     System.out.println("Exiting program.");
+                    break;
                 default:
                     System.out.println("Invalid choice. Please try again.");
             }

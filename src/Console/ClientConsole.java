@@ -99,8 +99,8 @@ public class ClientConsole {
         String experienceLevel = scanner.next();
         System.out.print("Is client a member (true/false): ");
         boolean isMember=false;
-        if (scanner.next().equals("0")) {isMember=false;} else if(scanner.next().equals("1"))  isMember=true; else
-            System.out.println("Invalid");
+        if (scanner.next().equals("0")) {isMember=false;}
+        else {isMember=true;}
 
         Client client = new Client(0, name, age, contactInfo, experienceLevel, isMember);
         clientController.addClient(client);
