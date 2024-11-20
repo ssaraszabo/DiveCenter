@@ -33,4 +33,12 @@ public class RegistrationController {
     public Registration getRegistration(int id) {
         return registrationService.getRegistration(id);
     }
+
+    /**
+     * Retrieves a list of clients with unpaid invoices via the service layer.
+     */
+    public List<Client> getClientsWithUnpaidInvoices() {
+        return registrationService.getClientsWithUnpaidInvoices();
+    }
+
 }

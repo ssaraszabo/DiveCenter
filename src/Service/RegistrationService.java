@@ -4,14 +4,16 @@ import Domain.*;
 import Repository.IRepository;
 import Repository.FileRepository;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 public class RegistrationService {
     private IRepository<Registration> registrationRepository;
 
     public RegistrationService(IRepository<Registration> registrationRepository) {
-        //this.registrationRepository = registrationRepository;
         /**
          * Initializes a new instance of RegistrationService with a FileRepository.
          */
@@ -72,13 +74,14 @@ public class RegistrationService {
                 )
         );
     }
+
     /**
      * Adds a new registration to the repository.
      *
-     * @param registrationID,  Id of registration.
-     * @param client Client that is linked to the registration.
-     * @param course Course that Client is registered for.
-     * @param amount Price of Course.
+     * @param registrationID, Id of registration.
+     * @param client          Client that is linked to the registration.
+     * @param course          Course that Client is registered for.
+     * @param amount          Price of Course.
      * @return The registration.
      */
     public Registration createRegistration(int registrationID, Client client, Course course, int amount) throws IllegalStateException {
@@ -135,7 +138,7 @@ public class RegistrationService {
      * Updates an existing registration in the repository.
      *
      * @param registrationID The ID of the registration.
-     * @param newTime Updated time of registration.
+     * @param newTime        Updated time of registration.
      */
     public void updateRegistration(int registrationID, Date newTime) {
         Registration registration = registrationRepository.read(registrationID);
@@ -166,8 +169,30 @@ public class RegistrationService {
         return client.getexperienceLevel().equalsIgnoreCase(course.getExperienceRequired()) ||
                 course.getExperienceRequired().isEmpty(); // Allow if experience requirement is not specified
     }
+
     public Registration getRegistration(int id) {
         return registrationRepository.read(id);
+    }
+
+    /**
+     * Retrieves a list of clients who have unpaid invoices.
+     *
+     * @return A list of clients with unpaid invoices.
+     */
+    public List<Client> getClientsWithUnpaidInvoices() {
+        List<Registration> allRegistrations = registrationRepository.readAll();
+        List<Client> clientsWithUnpaidInvoices = new ArrayList<>();
+
+        for (Registration registration : allRegistrations) {
+            if (!registration.getInvoice().getPayed()) { // Check if the invoice is unpaid
+                Client client = registration.getClient();
+                if (!clientsWithUnpaidInvoices.contains(client)) { // Avoid duplicate entries
+                    clientsWithUnpaidInvoices.add(client);
+                }
+            }
+        }
+
+        return clientsWithUnpaidInvoices;
     }
 }
 

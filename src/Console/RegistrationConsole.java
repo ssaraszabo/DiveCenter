@@ -33,7 +33,8 @@ public class RegistrationConsole {
             System.out.println("3. Update Registration Time");
             System.out.println("4. Delete Registration");
             System.out.println("5. View All Registrations");
-            System.out.println("6. Exit");
+            System.out.println("6. View Clients with Unpaid Invoices");
+            System.out.println("7. Exit");
             System.out.print("Enter choice: ");
             int choice = scanner.nextInt();
 
@@ -54,6 +55,9 @@ public class RegistrationConsole {
                     viewAllRegistrations();
                     break;
                 case 6:
+                    viewClientsWithUnpaidInvoices();
+                    break;
+                case 7:
                     System.out.println("Exiting...");
                     return;
                 default:
@@ -143,6 +147,16 @@ public class RegistrationConsole {
             System.out.println("No registrations found.");
         } else {
             registrations.forEach(System.out::println);
+        }
+    }
+
+    private void viewClientsWithUnpaidInvoices() {
+        System.out.println("Clients with unpaid invoices:");
+        List<Client> clients = registrationController.getClientsWithUnpaidInvoices();
+        if (clients.isEmpty()) {
+            System.out.println("No clients with unpaid invoices.");
+        } else {
+            clients.forEach(System.out::println);
         }
     }
 }
