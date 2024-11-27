@@ -86,8 +86,8 @@ public class Course {
     @Override
     public String toString() {
         return "Domain.Course [courseID=" + courseID + ", name=" + name + ", startTime=" + startTime + ", minAge=" + minAge +
-                ", experienceRequired=" + experienceRequired + ", maxCapacity=" + maxCapacity + ", currentCapacity= ," +
-                currentCapacity + "equipment=" + equipment +"]";
+                ", experienceRequired=" + experienceRequired + ", maxCapacity=" + maxCapacity + ", currentCapacity=" +
+                currentCapacity + ", equipment=" + equipment +"]";
     }
 
     // Increment capacity by 1

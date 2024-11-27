@@ -3,24 +3,30 @@ package Service;
 import Domain.*;
 import Repository.IRepository;
 import Repository.FileRepository;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
+import Domain.Invoice;
+import Controller.InvoiceController;
 
 public class RegistrationService {
     private IRepository<Registration> registrationRepository;
+    private InvoiceController invoiceController;
 
-    public RegistrationService(IRepository<Registration> registrationRepository) {
+
+    public RegistrationService(IRepository<Registration> registrationRepository, InvoiceController invoiceController) {
         /**
          * Initializes a new instance of RegistrationService with a FileRepository.
          */
+        this.invoiceController = invoiceController;
         this.registrationRepository = new FileRepository<>(
                 "registrations.txt",
                 Registration::getRegistrationID,
                 line -> {
                     String[] parts = line.split(",");
+                    if (parts.length < 20) {
+                        throw new IllegalArgumentException("Invalid data format in line: " + line);
+                    }
                     return new Registration(
                             Integer.parseInt(parts[0]),         //registrationID
                             new Date(Long.parseLong(parts[1])), //registrationDate (as timestamp)
@@ -69,6 +75,7 @@ public class RegistrationService {
                         String.valueOf(registration.getCourse().getCurrentCapacity()),
                         String.valueOf(registration.getInvoice().getInvoiceId()),
                         String.valueOf(registration.getInvoice().getAmount()),
+                        String.valueOf(registration.getInvoice().getPayed()),
                         String.valueOf(registration.getInvoice().getIssueDate().getTime())
                 )
         );
@@ -99,12 +106,13 @@ public class RegistrationService {
         boolean payed = false;
         Invoice invoice = new Invoice(invoiceID, amount, payed, registrationDate);
 
+        invoiceController.createInvoice(invoice);
+
         String status = "Active";
 
         Registration registration = new Registration(registrationID, registrationDate, status, client, course, invoice);
 
         registrationRepository.create(registration);
-
         return registration;
     }
 

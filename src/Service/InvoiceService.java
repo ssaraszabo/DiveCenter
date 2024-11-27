@@ -11,7 +11,7 @@ public class InvoiceService {
     private IRepository<Invoice> invoiceRepository;
 
     public InvoiceService(IRepository<Invoice> invoiceRepository) {
-        //this.invoiceRepository = invoiceRepository;
+        this.invoiceRepository = invoiceRepository;
         /**
          * Initializes a new instance of InvoiceService with a FileRepository.
          */
@@ -23,8 +23,8 @@ public class InvoiceService {
                     return new Invoice(
                             Integer.parseInt(parts[0]),         //invoiceId
                             Integer.parseInt(parts[1]),         //amount
-                            Boolean.parseBoolean(parts[3]),     //payment
-                            new Date(Long.parseLong(parts[2])) //issueDate(as timestamp)
+                            Boolean.parseBoolean(parts[2]),     //payment
+                            new Date(Long.parseLong(parts[3])) //issueDate(as timestamp)
                     );
                 },
                 invoice -> String.join(",",
@@ -34,6 +34,10 @@ public class InvoiceService {
                         String.valueOf(invoice.getIssueDate().getTime())
                 )
         );
+    }
+
+    public boolean addInvoice(Invoice invoice) {
+        return invoiceRepository.create(invoice);
     }
 
     /**

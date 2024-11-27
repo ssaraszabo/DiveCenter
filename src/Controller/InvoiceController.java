@@ -16,6 +16,10 @@ public class InvoiceController {
         return invoiceService.updateInvoice(invoice);
     }
 
+    public boolean createInvoice(Invoice invoice) {
+        return invoiceService.addInvoice(invoice);
+    }
+
     public boolean deleteInvoice(int invoiceID) {
         return invoiceService.deleteInvoice(invoiceID);
     }

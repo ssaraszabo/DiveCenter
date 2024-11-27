@@ -278,7 +278,7 @@ public class Main {
         ScheduleService scheduleService = new ScheduleService(scheduleRepository);
         ScheduleController scheduleController = new ScheduleController(scheduleService);
 
-        RegistrationService registrationService = new RegistrationService(registrationRepository);
+        RegistrationService registrationService = new RegistrationService(registrationRepository,invoiceController);
         RegistrationController registrationController = new RegistrationController(registrationService);
 
         ClientConsole clientConsole = new ClientConsole(clientController);
