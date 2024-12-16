@@ -15,70 +15,71 @@ public class RegistrationService {
 
 
     public RegistrationService(IRepository<Registration> registrationRepository, InvoiceController invoiceController) {
+        this.registrationRepository = registrationRepository;
         /**
-         * Initializes a new instance of RegistrationService with a FileRepository.
+         * Initializes a new instance of RegistrationService with a FileRepository and DBRepository.
          */
         this.invoiceController = invoiceController;
-        this.registrationRepository = new FileRepository<>(
-                "registrations.txt",
-                Registration::getRegistrationID,
-                line -> {
-                    String[] parts = line.split(",");
-                    if (parts.length < 20) {
-                        throw new IllegalArgumentException("Invalid data format in line: " + line);
-                    }
-                    return new Registration(
-                            Integer.parseInt(parts[0]),         //registrationID
-                            new Date(Long.parseLong(parts[1])), //registrationDate (as timestamp)
-                            parts[2],                           //status
-                            new Client(
-                                    Integer.parseInt(parts[3]), //clientID
-                                    parts[4],                   //clientName
-                                    Integer.parseInt(parts[5]), //clientAge
-                                    parts[6],                   //clientContactInfo
-                                    parts[7],                   //clientExperienceLevel
-                                    Boolean.parseBoolean(parts[8]) //isMember
-                            ),
-                            new Course(
-                                    Integer.parseInt(parts[9]),     //courseID
-                                    parts[10],                      //courseName
-                                    new Date(Long.parseLong(parts[11])), //courseStartTime
-                                    Integer.parseInt(parts[12]),    //minAge
-                                    parts[13],                      //experienceRequired
-                                    Integer.parseInt(parts[14]),    //maxCapacity
-                                    Integer.parseInt(parts[15])     //currentCapacity
-                            ),
-                            new Invoice(
-                                    Integer.parseInt(parts[16]),         //invoiceId
-                                    Integer.parseInt(parts[17]),         //amount
-                                    Boolean.parseBoolean(parts[18]),     //payment
-                                    new Date(Long.parseLong(parts[19])) //issueDate(as timestamp)
-                            )
-                    );
-                },
-                registration -> String.join(",",
-                        String.valueOf(registration.getRegistrationID()),
-                        String.valueOf(registration.getRegistrationDate().getTime()),
-                        registration.getStatus(),
-                        String.valueOf(registration.getClient().getId()),
-                        registration.getClient().getName(),
-                        String.valueOf(registration.getClient().getAge()),
-                        registration.getClient().getContactInfo(),
-                        registration.getClient().getexperienceLevel(),
-                        String.valueOf(registration.getClient().isMember()),
-                        String.valueOf(registration.getCourse().getCourseID()),
-                        registration.getCourse().getName(),
-                        String.valueOf(registration.getCourse().getStartTime().getTime()),
-                        String.valueOf(registration.getCourse().getMinAge()),
-                        registration.getCourse().getExperienceRequired(),
-                        String.valueOf(registration.getCourse().getMaxCapacity()),
-                        String.valueOf(registration.getCourse().getCurrentCapacity()),
-                        String.valueOf(registration.getInvoice().getInvoiceId()),
-                        String.valueOf(registration.getInvoice().getAmount()),
-                        String.valueOf(registration.getInvoice().getPayed()),
-                        String.valueOf(registration.getInvoice().getIssueDate().getTime())
-                )
-        );
+//        this.registrationRepository = new FileRepository<>(
+//                "registrations.txt",
+//                Registration::getRegistrationID,
+//                line -> {
+//                    String[] parts = line.split(",");
+//                    if (parts.length < 20) {
+//                        throw new IllegalArgumentException("Invalid data format in line: " + line);
+//                    }
+//                    return new Registration(
+//                            Integer.parseInt(parts[0]),         //registrationID
+//                            new Date(Long.parseLong(parts[1])), //registrationDate (as timestamp)
+//                            parts[2],                           //status
+//                            new Client(
+//                                    Integer.parseInt(parts[3]), //clientID
+//                                    parts[4],                   //clientName
+//                                    Integer.parseInt(parts[5]), //clientAge
+//                                    parts[6],                   //clientContactInfo
+//                                    parts[7],                   //clientExperienceLevel
+//                                    Boolean.parseBoolean(parts[8]) //isMember
+//                            ),
+//                            new Course(
+//                                    Integer.parseInt(parts[9]),     //courseID
+//                                    parts[10],                      //courseName
+//                                    new Date(Long.parseLong(parts[11])), //courseStartTime
+//                                    Integer.parseInt(parts[12]),    //minAge
+//                                    parts[13],                      //experienceRequired
+//                                    Integer.parseInt(parts[14]),    //maxCapacity
+//                                    Integer.parseInt(parts[15])     //currentCapacity
+//                            ),
+//                            new Invoice(
+//                                    Integer.parseInt(parts[16]),         //invoiceId
+//                                    Integer.parseInt(parts[17]),         //amount
+//                                    Boolean.parseBoolean(parts[18]),     //payment
+//                                    new Date(Long.parseLong(parts[19])) //issueDate(as timestamp)
+//                            )
+//                    );
+//                },
+//                registration -> String.join(",",
+//                        String.valueOf(registration.getRegistrationID()),
+//                        String.valueOf(registration.getRegistrationDate().getTime()),
+//                        registration.getStatus(),
+//                        String.valueOf(registration.getClient().getId()),
+//                        registration.getClient().getName(),
+//                        String.valueOf(registration.getClient().getAge()),
+//                        registration.getClient().getContactInfo(),
+//                        registration.getClient().getexperienceLevel(),
+//                        String.valueOf(registration.getClient().isMember()),
+//                        String.valueOf(registration.getCourse().getCourseID()),
+//                        registration.getCourse().getName(),
+//                        String.valueOf(registration.getCourse().getStartTime().getTime()),
+//                        String.valueOf(registration.getCourse().getMinAge()),
+//                        registration.getCourse().getExperienceRequired(),
+//                        String.valueOf(registration.getCourse().getMaxCapacity()),
+//                        String.valueOf(registration.getCourse().getCurrentCapacity()),
+//                        String.valueOf(registration.getInvoice().getInvoiceId()),
+//                        String.valueOf(registration.getInvoice().getAmount()),
+//                        String.valueOf(registration.getInvoice().getPayed()),
+//                        String.valueOf(registration.getInvoice().getIssueDate().getTime())
+//                )
+//        );
     }
 
     /**

@@ -11,33 +11,33 @@ public class ClientService {
     private IRepository<Client> clientRepository;
 
     public ClientService(IRepository<Client> clientRepository) {
-        //this.clientRepository = clientRepository;
+        this.clientRepository = clientRepository;
         /**
-         * Initializes a new instance of ClientService with a FileRepository.
+         * Initializes a new instance of ClientService with a FileRepository and DBRepository.
          */
-        this.clientRepository = new FileRepository<>(
-                "clients.txt",
-                Client::getId,
-                line -> {
-                    String[] parts = line.split(",");
-                    return new Client(
-                            Integer.parseInt(parts[0]), //id
-                            parts[1],                   //name
-                            Integer.parseInt(parts[2]), //age
-                            parts[3],                   //contactInfo
-                            parts[4],                   //experienceLevel
-                            Boolean.parseBoolean(parts[5]) //isMember
-                    );
-                },
-                client -> String.join(",",
-                        String.valueOf(client.getId()),
-                        client.getName(),
-                        String.valueOf(client.getAge()),
-                        client.getContactInfo(),
-                        client.getexperienceLevel(),
-                        String.valueOf(client.isMember())
-                )
-        );
+//        this.clientRepository = new FileRepository<>(
+//                "clients.txt",
+//                Client::getId,
+//                line -> {
+//                    String[] parts = line.split(",");
+//                    return new Client(
+//                            Integer.parseInt(parts[0]), //id
+//                            parts[1],                   //name
+//                            Integer.parseInt(parts[2]), //age
+//                            parts[3],                   //contactInfo
+//                            parts[4],                   //experienceLevel
+//                            Boolean.parseBoolean(parts[5]) //isMember
+//                    );
+//                },
+//                client -> String.join(",",
+//                        String.valueOf(client.getId()),
+//                        client.getName(),
+//                        String.valueOf(client.getAge()),
+//                        client.getContactInfo(),
+//                        client.getexperienceLevel(),
+//                        String.valueOf(client.isMember())
+//                )
+//        );
     }
     /**
      * Adds a new client to the repository.

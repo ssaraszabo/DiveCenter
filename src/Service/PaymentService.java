@@ -11,30 +11,29 @@ public class PaymentService {
     private IRepository<Payment> paymentRepository;
 
     public PaymentService(IRepository<Payment> paymentRepository) {
-
-        //this.paymentRepository = paymentRepository;
+        this.paymentRepository = paymentRepository;
         /**
-         * Initializes a new instance of PaymentService with a FileRepository.
+         * Initializes a new instance of PaymentService with a FileRepository and DBRepository.
          */
-        this.paymentRepository = new FileRepository<>(
-                "payments.txt",
-                Payment::getPaymentID,
-                line -> {
-                    String[] parts = line.split(",");
-                    return new Payment(
-                            Integer.parseInt(parts[0]),     //paymentID
-                            Integer.parseInt(parts[1]),     //membershipID
-                            Double.parseDouble(parts[2]),   //amount
-                            new Date(Long.parseLong(parts[3])) //paymentDate (as timestamp)
-                    );
-                },
-                payment -> String.join(",",
-                        String.valueOf(payment.getPaymentID()),
-                        String.valueOf(payment.getMembershipID()),
-                        String.valueOf(payment.getAmount()),
-                        String.valueOf(payment.getPaymentDate().getTime())
-                )
-        );
+//        this.paymentRepository = new FileRepository<>(
+//                "payments.txt",
+//                Payment::getPaymentID,
+//                line -> {
+//                    String[] parts = line.split(",");
+//                    return new Payment(
+//                            Integer.parseInt(parts[0]),     //paymentID
+//                            Integer.parseInt(parts[1]),     //membershipID
+//                            Double.parseDouble(parts[2]),   //amount
+//                            new Date(Long.parseLong(parts[3])) //paymentDate (as timestamp)
+//                    );
+//                },
+//                payment -> String.join(",",
+//                        String.valueOf(payment.getPaymentID()),
+//                        String.valueOf(payment.getMembershipID()),
+//                        String.valueOf(payment.getAmount()),
+//                        String.valueOf(payment.getPaymentDate().getTime())
+//                )
+//        );
     }
 
     /**

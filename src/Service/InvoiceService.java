@@ -13,27 +13,27 @@ public class InvoiceService {
     public InvoiceService(IRepository<Invoice> invoiceRepository) {
         this.invoiceRepository = invoiceRepository;
         /**
-         * Initializes a new instance of InvoiceService with a FileRepository.
+         * Initializes a new instance of InvoiceService with a FileRepository and DBRepository.
          */
-        this.invoiceRepository = new FileRepository<>(
-                "invoices.txt",
-                Invoice::getInvoiceId,
-                line -> {
-                    String[] parts = line.split(",");
-                    return new Invoice(
-                            Integer.parseInt(parts[0]),         //invoiceId
-                            Integer.parseInt(parts[1]),         //amount
-                            Boolean.parseBoolean(parts[2]),     //payment
-                            new Date(Long.parseLong(parts[3])) //issueDate(as timestamp)
-                    );
-                },
-                invoice -> String.join(",",
-                        String.valueOf(invoice.getInvoiceId()),
-                        String.valueOf(invoice.getAmount()),
-                        String.valueOf(invoice.getPayed()),
-                        String.valueOf(invoice.getIssueDate().getTime())
-                )
-        );
+//        this.invoiceRepository = new FileRepository<>(
+//                "invoices.txt",
+//                Invoice::getInvoiceId,
+//                line -> {
+//                    String[] parts = line.split(",");
+//                    return new Invoice(
+//                            Integer.parseInt(parts[0]),         //invoiceId
+//                            Integer.parseInt(parts[1]),         //amount
+//                            Boolean.parseBoolean(parts[2]),     //payment
+//                            new Date(Long.parseLong(parts[3])) //issueDate(as timestamp)
+//                    );
+//                },
+//                invoice -> String.join(",",
+//                        String.valueOf(invoice.getInvoiceId()),
+//                        String.valueOf(invoice.getAmount()),
+//                        String.valueOf(invoice.getPayed()),
+//                        String.valueOf(invoice.getIssueDate().getTime())
+//                )
+//        );
     }
 
     public boolean addInvoice(Invoice invoice) {

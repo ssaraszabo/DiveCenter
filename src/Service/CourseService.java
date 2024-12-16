@@ -11,34 +11,35 @@ public class CourseService {
     private final IRepository<Course> courseRepository;
 
     public CourseService(IRepository<Course> courseRepository) {
+        this.courseRepository = courseRepository;
         /**
-         * Initializes a new instance of CourseService with a FileRepository.
+         * Initializes a new instance of CourseService with a FileRepository and DBRepository.
          */
-        this.courseRepository = new FileRepository<>(
-                "courses.txt",
-                Course::getCourseID,
-                line -> {
-                    String[] parts = line.split(",");
-                    return new Course(
-                            Integer.parseInt(parts[0]), // courseID
-                            parts[1],                   // name
-                            new Date(Long.parseLong(parts[2])), // startTime (as timestamp)
-                            Integer.parseInt(parts[3]), // minAge
-                            parts[4],                   // experienceRequired
-                            Integer.parseInt(parts[5]), // maxCapacity
-                            Integer.parseInt(parts[6])  // currentCapacity
-                    );
-                },
-                course -> String.join(",",
-                        String.valueOf(course.getCourseID()),
-                        course.getName(),
-                        String.valueOf(course.getStartTime().getTime()),
-                        String.valueOf(course.getMinAge()),
-                        course.getExperienceRequired(),
-                        String.valueOf(course.getMaxCapacity()),
-                        String.valueOf(course.getCurrentCapacity())
-                )
-        );
+//        this.courseRepository = new FileRepository<>(
+//                "courses.txt",
+//                Course::getCourseID,
+//                line -> {
+//                    String[] parts = line.split(",");
+//                    return new Course(
+//                            Integer.parseInt(parts[0]), // courseID
+//                            parts[1],                   // name
+//                            new Date(Long.parseLong(parts[2])), // startTime (as timestamp)
+//                            Integer.parseInt(parts[3]), // minAge
+//                            parts[4],                   // experienceRequired
+//                            Integer.parseInt(parts[5]), // maxCapacity
+//                            Integer.parseInt(parts[6])  // currentCapacity
+//                    );
+//                },
+//                course -> String.join(",",
+//                        String.valueOf(course.getCourseID()),
+//                        course.getName(),
+//                        String.valueOf(course.getStartTime().getTime()),
+//                        String.valueOf(course.getMinAge()),
+//                        course.getExperienceRequired(),
+//                        String.valueOf(course.getMaxCapacity()),
+//                        String.valueOf(course.getCurrentCapacity())
+//                )
+//        );
     }
     /**
      * Retrieves all courses.

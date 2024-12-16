@@ -10,30 +10,29 @@ public class ScheduleService {
     private IRepository<Schedule> scheduleRepository;
 
     public ScheduleService(IRepository<Schedule> scheduleRepository) {
-
-        //this.scheduleRepository = scheduleRepository;
+        this.scheduleRepository = scheduleRepository;
         /**
-         * Initializes a new instance of ScheduleService with a FileRepository.
+         * Initializes a new instance of ScheduleService with a FileRepository and DBRepository.
          */
-        this.scheduleRepository = new FileRepository<>(
-                "schedules.txt",
-                Schedule::getScheduleID,
-                line -> {
-                    String[] parts = line.split(",");
-                    return new Schedule(
-                            Integer.parseInt(parts[0]),         //scheduleID
-                            Integer.parseInt(parts[1]),         //employeeID
-                            new Date(Long.parseLong(parts[2])), //startTime
-                            new Date(Long.parseLong(parts[3])) //endTime
-                    );
-                },
-                schedule -> String.join(",",
-                        String.valueOf(schedule.getScheduleID()),
-                        String.valueOf(schedule.getEmployeeID()),
-                        String.valueOf(schedule.getStartTime().getTime()),
-                        String.valueOf(schedule.getEndTime().getTime())
-                )
-        );
+//        this.scheduleRepository = new FileRepository<>(
+//                "schedules.txt",
+//                Schedule::getScheduleID,
+//                line -> {
+//                    String[] parts = line.split(",");
+//                    return new Schedule(
+//                            Integer.parseInt(parts[0]),         //scheduleID
+//                            Integer.parseInt(parts[1]),         //employeeID
+//                            new Date(Long.parseLong(parts[2])), //startTime
+//                            new Date(Long.parseLong(parts[3])) //endTime
+//                    );
+//                },
+//                schedule -> String.join(",",
+//                        String.valueOf(schedule.getScheduleID()),
+//                        String.valueOf(schedule.getEmployeeID()),
+//                        String.valueOf(schedule.getStartTime().getTime()),
+//                        String.valueOf(schedule.getEndTime().getTime())
+//                )
+//        );
     }
     /**
      * Adds a new schedule to the repository.
