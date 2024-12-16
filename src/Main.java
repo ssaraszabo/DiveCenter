@@ -11,10 +11,11 @@ import Controller.*;
 
 import Domain.*;
 
-import Repository.FileRepository;
+import Repository.DBRepository;
 import Repository.IRepository;
 import Service.*;
 
+import java.sql.SQLException;
 import java.util.Date;
 import java.util.Scanner;
 import Console.RegistrationConsole;
@@ -23,235 +24,246 @@ public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
-//        InMemoryRepository<Client> clientRepository = new InMemoryRepository<>(Client::getId);
-//        InMemoryRepository<Equipment> equipmentRepository = new InMemoryRepository<>(Equipment::getEquipmentID);
-//        InMemoryRepository<Invoice> invoiceRepository = new InMemoryRepository<>(Invoice::getInvoiceId);
-//        InMemoryRepository<Membership> membershipRepository = new InMemoryRepository<>(Membership::getMembershipID);
-//        InMemoryRepository<Payment> paymentRepository = new InMemoryRepository<>(Payment::getPaymentID);
-//        InMemoryRepository<Schedule> scheduleRepository = new InMemoryRepository<>(Schedule::getScheduleID);
-//        InMemoryRepository<Registration> registrationRepository = new InMemoryRepository<>(Registration::getRegistrationID);
+        // Connection string for the database
+        String connectionString = "jdbc:sqlserver://localhost;databaseName=DiveCenterMAP;user=(usernameTODO);password=(passwordTODO)";
 
-        IRepository<Employee> employeeRepository = new FileRepository<>(
-                "employees.txt",
-                Employee::getId,
-                line -> {
-                    String[] parts = line.split(",");
-                    return new Employee(
-                            Integer.parseInt(parts[0]), //id
-                            parts[1],                   //name
-                            Integer.parseInt(parts[2]), //age
-                            parts[3],                   //contactInfo
-                            parts[4],                   //position
-                            parts[5]                    //employmentDate
-                    );
+        // Initialize DBRepository for Client
+        IRepository<Client> clientRepository = new DBRepository<>(
+                connectionString,
+                "Clients",
+                resultSet -> {
+                    try {
+                        return new Client(
+                                resultSet.getInt("id"),
+                                resultSet.getString("name"),
+                                resultSet.getInt("age"),
+                                resultSet.getString("contactInfo"),
+                                resultSet.getString("experienceLevel"),
+                                resultSet.getBoolean("isMember")
+                        );
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                        return null;
+                    }
                 },
-                employee -> String.join(",",
-                        String.valueOf(employee.getId()),
+                client -> new Object[]{
+                        client.getId(),
+                        client.getName(),
+                        client.getAge(),
+                        client.getContactInfo(),
+                        client.getexperienceLevel(),
+                        client.isMember()
+                },
+                Client::getId
+        );
+        // Initialize DBRepository for Course
+        IRepository<Course> courseRepository = new DBRepository<>(
+                connectionString,
+                "Courses",
+                resultSet -> {
+                    try {
+                        return new Course(
+                                resultSet.getInt("id"),
+                                resultSet.getString("name"),
+                                new java.util.Date(resultSet.getTimestamp("startTime").getTime()),
+                                resultSet.getInt("minAge"),
+                                resultSet.getString("experienceRequired"),
+                                resultSet.getInt("maxCapacity"),
+                                resultSet.getInt("currentCapacity")
+                        );
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                        return null;
+                    }
+                },
+                course -> new Object[]{
+                        course.getCourseID(),
+                        course.getName(),
+                        new java.sql.Timestamp(course.getStartTime().getTime()),
+                        course.getMinAge(),
+                        course.getExperienceRequired(),
+                        course.getMaxCapacity(),
+                        course.getCurrentCapacity()
+                },
+                Course::getCourseID
+        );
+        // Initialize DBRepository for Employee
+        IRepository<Employee> employeeRepository = new DBRepository<>(
+                connectionString,
+                "Employees",
+                resultSet -> {
+                    try {
+                        return new Employee(
+                                resultSet.getInt("id"),
+                                resultSet.getString("name"),
+                                resultSet.getInt("age"),
+                                resultSet.getString("contactInfo"),
+                                resultSet.getString("position"),
+                                resultSet.getString("employmentDate")
+                        );
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                        return null;
+                    }
+                },
+                employee -> new Object[]{
+                        employee.getId(),
                         employee.getName(),
-                        String.valueOf(employee.getAge()),
+                        employee.getAge(),
                         employee.getContactInfo(),
                         employee.getPosition(),
                         employee.getEmploymentDate()
-                )
-        );
-        IRepository<Client> clientRepository = new FileRepository<>(
-                "clients.txt",
-                Client::getId,
-                line -> {
-                    String[] parts = line.split(",");
-                    return new Client(
-                            Integer.parseInt(parts[0]),
-                            parts[1],
-                            Integer.parseInt(parts[2]),
-                            parts[3],
-                            parts[4],
-                            Boolean.parseBoolean(parts[5])
-                    );
                 },
-                client -> String.join(",",
-                        String.valueOf(client.getId()),
-                        client.getName(),
-                        String.valueOf(client.getAge()),
-                        client.getContactInfo(),
-                        client.getexperienceLevel(),
-                        String.valueOf(client.isMember())
-                )
+                Employee::getId
         );
-        IRepository<Course> courseRepository = new FileRepository<>(
-                "courses.txt",
-                Course::getCourseID,
-                line -> {
-                    String[] parts = line.split(",");
-                    return new Course(
-                            Integer.parseInt(parts[0]),
-                            parts[1],
-                            new Date(Long.parseLong(parts[2])),
-                            Integer.parseInt(parts[3]),
-                            parts[4],
-                            Integer.parseInt(parts[5]),
-                            Integer.parseInt(parts[6])
-                    );
+        // Initialize DBRepository for Equipment
+        IRepository<Equipment> equipmentRepository = new DBRepository<>(
+                connectionString,
+                "Equipment",
+                resultSet -> {
+                    try {
+                        return new Equipment(
+                                resultSet.getInt("id"),
+                                resultSet.getString("type"),
+                                resultSet.getInt("condition"),
+                                new java.util.Date(resultSet.getTimestamp("lastMaintenanceDate").getTime())
+                        );
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                        return null;
+                    }
                 },
-                course -> String.join(",",
-                        String.valueOf(course.getCourseID()),
-                        course.getName(),
-                        String.valueOf(course.getStartTime().getTime()),
-                        String.valueOf(course.getMinAge()),
-                        course.getExperienceRequired(),
-                        String.valueOf(course.getMaxCapacity()),
-                        String.valueOf(course.getCurrentCapacity())
-                )
-        );
-        IRepository<Equipment> equipmentRepository = new FileRepository<>(
-                "equipment.txt",
-                Equipment::getEquipmentID,
-                line -> {
-                    String[] parts = line.split(",");
-                    return new Equipment(
-                            Integer.parseInt(parts[0]), //equipmentID
-                            parts[1],                   //type
-                            Integer.parseInt(parts[2]), //condition
-                            new Date(Long.parseLong(parts[3])) //lastMaintenanceDate(as timestamp)
-                    );
-                },
-                equipment -> String.join(",",
-                        String.valueOf(equipment.getEquipmentID()),
+                equipment -> new Object[]{
+                        equipment.getEquipmentID(),
                         equipment.getType(),
-                        String.valueOf(equipment.getCondition()),
-                        String.valueOf(equipment.getLastmaintainancedate().getTime())
-                )
-        );
-        IRepository<Invoice> invoiceRepository = new FileRepository<>(
-                "invoices.txt",
-                Invoice::getInvoiceId,
-                line -> {
-                    String[] parts = line.split(",");
-                    return new Invoice(
-                            Integer.parseInt(parts[0]),         //invoiceId
-                            Integer.parseInt(parts[1]),         //amount
-                            Boolean.parseBoolean(parts[3]),     //payment
-                            new Date(Long.parseLong(parts[2])) //issueDate(as timestamp)
-                    );
-                    },
-                invoice -> String.join(",",
-                        String.valueOf(invoice.getInvoiceId()),
-                        String.valueOf(invoice.getAmount()),
-                        String.valueOf(invoice.getPayed()),
-                        String.valueOf(invoice.getIssueDate().getTime())
-                )
-        );
-        IRepository<Membership> membershipRepository = new FileRepository<>(
-                "memberships.txt",
-                Membership::getMembershipID,
-                line -> {
-                    String[] parts = line.split(",");
-                    return new Membership(
-                            Integer.parseInt(parts[0]),         //membershipID
-                            new Date(Long.parseLong(parts[1])), //startDate (as timestamp)
-                            new Date(Long.parseLong(parts[2])), //endDate (as timestamp)
-                            parts[3]                            //membershipType
-                    );
+                        equipment.getCondition(),
+                        new java.sql.Timestamp(equipment.getLastmaintainancedate().getTime())
                 },
-                membership -> String.join(",",
-                        String.valueOf(membership.getMembershipID()),
-                        String.valueOf(membership.getStartDate().getTime()),
-                        String.valueOf(membership.getEndDate().getTime()),
+                Equipment::getEquipmentID
+        );
+        //Initialize DBRepository for Invoice
+        IRepository<Invoice> invoiceRepository = new DBRepository<>(
+                connectionString,
+                "Invoices",
+                resultSet -> {
+                    try {
+                        return new Invoice(
+                                resultSet.getInt("id"),
+                                resultSet.getInt("amount"),
+                                new java.util.Date(resultSet.getTimestamp("issueDate").getTime())
+                        );
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                        return null;
+                    }
+                },
+                invoice -> new Object[]{
+                        invoice.getInvoiceId(),
+                        invoice.getAmount(),
+                        new java.sql.Timestamp(invoice.getIssueDate().getTime())
+                },
+                Invoice::getInvoiceId
+        );
+        //Initialize DBRepository for Membership
+        IRepository<Membership> membershipRepository = new DBRepository<>(
+                connectionString,
+                "Memberships",
+                resultSet -> {
+                    try {
+                        return new Membership(
+                                resultSet.getInt("id"),
+                                new java.util.Date(resultSet.getTimestamp("startDate").getTime()),
+                                new java.util.Date(resultSet.getTimestamp("endDate").getTime()),
+                                resultSet.getString("membershipType")
+                        );
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                        return null;
+                    }
+                },
+                membership -> new Object[]{
+                        membership.getMembershipID(),
+                        new java.sql.Timestamp(membership.getStartDate().getTime()),
+                        new java.sql.Timestamp(membership.getEndDate().getTime()),
                         membership.getMembershipType()
-                )
-        );
-        IRepository<Payment> paymentRepository = new FileRepository<>(
-                "payments.txt",
-                Payment::getPaymentID,
-                line -> {
-                    String[] parts = line.split(",");
-                    return new Payment(
-                            Integer.parseInt(parts[0]),     //paymentID
-                            Integer.parseInt(parts[1]),     //membershipID
-                            Double.parseDouble(parts[2]),   //amount
-                            new Date(Long.parseLong(parts[3])) //paymentDate (as timestamp)
-                    );
                 },
-                payment -> String.join(",",
-                        String.valueOf(payment.getPaymentID()),
-                        String.valueOf(payment.getMembershipID()),
-                        String.valueOf(payment.getAmount()),
-                        String.valueOf(payment.getPaymentDate().getTime())
-                )
+                Membership::getMembershipID
         );
-        IRepository<Registration> registrationRepository = new FileRepository<>(
-                "registrations.txt",
-                registration -> registration.getRegistrationID(),
-                line -> {
-                    String[] parts = line.split(",");
-                    return new Registration(
-                            Integer.parseInt(parts[0]),         //registrationID
-                            new Date(Long.parseLong(parts[1])), //registrationDate (as timestamp)
-                            parts[2],                           //status
-                            new Client(
-                                    Integer.parseInt(parts[3]), //clientID
-                                    parts[4],                   //clientName
-                                    Integer.parseInt(parts[5]), //clientAge
-                                    parts[6],                   //clientContactInfo
-                                    parts[7],                   //clientExperienceLevel
-                                    Boolean.parseBoolean(parts[8]) //isMember
-                            ),
-                            new Course(
-                                    Integer.parseInt(parts[9]),     //courseID
-                                    parts[10],                      //courseName
-                                    new Date(Long.parseLong(parts[11])), //courseStartTime
-                                    Integer.parseInt(parts[12]),    //minAge
-                                    parts[13],                      //experienceRequired
-                                    Integer.parseInt(parts[14]),    //maxCapacity
-                                    Integer.parseInt(parts[15])     //currentCapacity
-                            ),
-                            new Invoice(
-                                    Integer.parseInt(parts[16]),         //invoiceId
-                                    Integer.parseInt(parts[17]),         //amount
-                                    Boolean.parseBoolean(parts[18]),     //payment
-                                    new Date(Long.parseLong(parts[19])) //issueDate(as timestamp)
-                            )
-                    );
+        //Initialize DBRepository for Payment
+        IRepository<Payment> paymentRepository = new DBRepository<>(
+                connectionString,
+                "Payments",
+                resultSet -> {
+                    try {
+                        return new Payment(
+                                resultSet.getInt("id"),
+                                resultSet.getInt("membershipID"),
+                                resultSet.getDouble("amount"),
+                                new java.util.Date(resultSet.getTimestamp("paymentDate").getTime())
+                        );
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                        return null;
+                    }
                 },
-                registration -> String.join(",",
-                        String.valueOf(registration.getRegistrationID()),
-                        String.valueOf(registration.getRegistrationDate().getTime()),
-                        registration.getStatus(),
-                        String.valueOf(registration.getClient().getId()),
-                        registration.getClient().getName(),
-                        String.valueOf(registration.getClient().getAge()),
-                        registration.getClient().getContactInfo(),
-                        registration.getClient().getexperienceLevel(),
-                        String.valueOf(registration.getClient().isMember()),
-                        String.valueOf(registration.getCourse().getCourseID()),
-                        registration.getCourse().getName(),
-                        String.valueOf(registration.getCourse().getStartTime().getTime()),
-                        String.valueOf(registration.getCourse().getMinAge()),
-                        registration.getCourse().getExperienceRequired(),
-                        String.valueOf(registration.getCourse().getMaxCapacity()),
-                        String.valueOf(registration.getCourse().getCurrentCapacity()),
-                        String.valueOf(registration.getInvoice().getInvoiceId()),
-                        String.valueOf(registration.getInvoice().getAmount()),
-                        String.valueOf(registration.getInvoice().getIssueDate().getTime())
-                )
+                payment -> new Object[]{
+                        payment.getPaymentID(),
+                        payment.getMembershipID(),
+                        payment.getAmount(),
+                        new java.sql.Timestamp(payment.getPaymentDate().getTime())
+                },
+                Payment::getPaymentID
         );
-        IRepository<Schedule> scheduleRepository = new FileRepository<>(
-                "schedules.txt",
-                Schedule::getScheduleID,
-                line -> {
-                    String[] parts = line.split(",");
-                    return new Schedule(
-                            Integer.parseInt(parts[0]),         //scheduleID
-                            Integer.parseInt(parts[1]),         //employeeID
-                            new Date(Long.parseLong(parts[2])), //startTime
-                            new Date(Long.parseLong(parts[3])) //endTime
-                    );
+        //Iniatialize DBRepository for Schedule
+        IRepository<Schedule> scheduleRepository = new DBRepository<>(
+                connectionString,
+                "Schedules",
+                resultSet -> {
+                    try {
+                        return new Schedule(
+                                resultSet.getInt("id"),
+                                resultSet.getInt("employeeID"),
+                                new java.util.Date(resultSet.getTimestamp("startTime").getTime()),
+                                new java.util.Date(resultSet.getTimestamp("endTime").getTime())
+                        );
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                        return null;
+                    }
                 },
-                schedule -> String.join(",",
-                        String.valueOf(schedule.getScheduleID()),
-                        String.valueOf(schedule.getEmployeeID()),
-                        String.valueOf(schedule.getStartTime().getTime()),
-                        String.valueOf(schedule.getEndTime().getTime())
-                )
+                schedule -> new Object[]{
+                        schedule.getScheduleID(),
+                        schedule.getEmployeeID(),
+                        new java.sql.Timestamp(schedule.getStartTime().getTime()),
+                        new java.sql.Timestamp(schedule.getEndTime().getTime())
+                },
+                Schedule::getScheduleID
+        );
+        //Initialize DBRepository for Registration
+        IRepository<Registration> registrationRepository = new DBRepository<>(
+                connectionString,
+                "Registrations",
+                resultSet -> {
+                    try {
+                        return new Registration(
+                                resultSet.getInt("id"),
+                                new java.util.Date(resultSet.getTimestamp("registrationDate").getTime()),
+                                resultSet.getString("status"),
+                                null, // Assume associations (Client, Course, Invoice) are lazy-loaded
+                                null,
+                                null
+                        );
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                        return null;
+                    }
+                },
+                registration -> new Object[]{
+                        registration.getRegistrationID(),
+                        new java.sql.Timestamp(registration.getRegistrationDate().getTime()),
+                        registration.getStatus()
+                },
+                Registration::getRegistrationID
         );
 
         EmployeeService employeeService = new EmployeeService(employeeRepository);
