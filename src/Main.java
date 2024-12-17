@@ -23,7 +23,7 @@ import Console.RegistrationConsole;
 public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-
+        System.setProperty("java.library.path", "E:\\Documents\\JavaSqlConnectionStuff\\mssql-jdbc_auth-12.81.x64.dll");
         // Connection string for the database
         String connectionString = "jdbc:sqlserver://localhost:58092;databaseName=DiveCenterMAP;encrypt=false;trustServerCertificate=true;integratedSecurity=true;";
 
