@@ -1,0 +1,84 @@
+--DATABASE CREATION QUERY
+CREATE TABLE Persons (
+    PersonID INT PRIMARY KEY IDENTITY(1,1), -- Unique ID for all persons
+    Name NVARCHAR(100) NOT NULL,
+    Age INT CHECK (Age >= 0), -- Ensures non-negative ages
+    ContactInfo NVARCHAR(255) -- Phone or email
+);
+
+CREATE TABLE Client (
+    ClientID INT PRIMARY KEY, -- Same as PersonID
+    ExperienceLevel NVARCHAR(50), -- Beginner, Intermediate, Advanced
+    IsMember BIT NOT NULL DEFAULT 0, -- Boolean: 0 = false, 1 = true
+    FOREIGN KEY (ClientID) REFERENCES Persons(PersonID)
+);
+
+CREATE TABLE Employees (
+    EmployeeID INT PRIMARY KEY, -- Same as PersonID
+    Position NVARCHAR(100) NOT NULL, -- Job title (e.g., Instructor, Admin)
+    EmploymentDate DATE NOT NULL, -- Date of employment
+    FOREIGN KEY (EmployeeID) REFERENCES Persons(PersonID)
+);
+
+CREATE TABLE Equipment (
+    EquipmentID INT PRIMARY KEY IDENTITY(1,1), -- Auto-incremented unique ID
+    Type NVARCHAR(100) NOT NULL, -- Equipment type
+    Condition INT CHECK (Condition BETWEEN 1 AND 10), -- Ensures valid range
+    LastMaintenanceDate DATE NOT NULL -- Date of last maintenance
+);
+
+CREATE TABLE Courses (
+    CourseID INT PRIMARY KEY IDENTITY(1,1),
+    Name NVARCHAR(100) NOT NULL,
+    StartTime DATETIME NOT NULL,
+    MinAge INT NOT NULL,
+    ExperienceRequired NVARCHAR(50), -- e.g., 'Beginner', 'Intermediate', 'Advanced'
+    MaxCapacity INT NOT NULL,
+    CurrentCapacity INT NOT NULL DEFAULT 0, -- Starts at 0
+    EquipmentID INT, -- Foreign key for equipment used in the course
+    EmployeeID INT NOT NULL, -- Assigned instructor
+    FOREIGN KEY (EquipmentID) REFERENCES Equipment(EquipmentID),
+    FOREIGN KEY (EmployeeID) REFERENCES Employees(EmployeeID)
+);
+
+CREATE TABLE Invoice (
+    InvoiceID INT PRIMARY KEY IDENTITY(1,1), -- Auto-incremented unique ID
+    Amount DECIMAL(10, 2) NOT NULL, -- Invoice amount (supports decimals)
+    Payed BIT NOT NULL DEFAULT 0, -- Boolean (0 = Not paid, 1 = Paid)
+    IssueDate DATE NOT NULL -- Date the invoice was issued
+);
+
+CREATE TABLE Membership (
+    MembershipID INT PRIMARY KEY IDENTITY(1,1), -- Auto-incremented unique ID
+    StartDate DATE NOT NULL, -- Membership start date
+    EndDate DATE NOT NULL, -- Membership end date
+    MembershipType NVARCHAR(50) NOT NULL -- Type of membership (e.g., "Basic", "Premium")
+);
+
+CREATE TABLE Payment (
+    PaymentID INT PRIMARY KEY IDENTITY(1,1), -- Auto-incremented unique ID
+    MembershipID INT NOT NULL, -- Reference to Membership table
+    Amount DECIMAL(10, 2) NOT NULL, -- Payment amount (e.g., 9999.99)
+    PaymentDate DATE NOT NULL, -- Date when the payment was made
+    FOREIGN KEY (MembershipID) REFERENCES Membership(MembershipID) -- FK to Membership
+);
+
+CREATE TABLE Registration (
+    RegistrationID INT PRIMARY KEY IDENTITY(1,1), -- Auto-incremented unique ID
+    RegistrationDate DATE NOT NULL, -- Date of registration
+    Status VARCHAR(50) NOT NULL, -- Registration status (e.g., 'Confirmed', 'Pending')
+    ClientID INT NOT NULL, -- Reference to Client table
+    CourseID INT NOT NULL, -- Reference to Course table
+    InvoiceID INT, -- Reference to Invoice table (can be null if no invoice)
+    FOREIGN KEY (ClientID) REFERENCES Client(clientid), -- FK to Client table
+    FOREIGN KEY (CourseID) REFERENCES Courses(courseID), -- FK to Course table
+    FOREIGN KEY (InvoiceID) REFERENCES Invoice(invoiceId) -- FK to Invoice table
+);
+
+CREATE TABLE Schedule (
+    ScheduleID INT PRIMARY KEY IDENTITY(1,1), -- Auto-incremented unique ID
+    EmployeeID INT NOT NULL, -- Foreign key to the Employee table
+    StartTime DATETIME NOT NULL, -- Start time of the schedule
+    EndTime DATETIME NOT NULL, -- End time of the schedule
+    FOREIGN KEY (EmployeeID) REFERENCES Employees(EmployeeID) -- Foreign key to Employees table
+);
