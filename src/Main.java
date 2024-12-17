@@ -25,21 +25,21 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
 
         // Connection string for the database
-        String connectionString = "jdbc:sqlserver://localhost;databaseName=DiveCenterMAP;user=(usernameTODO);password=(passwordTODO)";
+        String connectionString = "jdbc:sqlserver://localhost:58092;databaseName=DiveCenterMAP;encrypt=false;trustServerCertificate=true;integratedSecurity=true;";
 
         // Initialize DBRepository for Client
         IRepository<Client> clientRepository = new DBRepository<>(
                 connectionString,
-                "Clients",
+                "Client",
                 resultSet -> {
                     try {
                         return new Client(
-                                resultSet.getInt("id"),
-                                resultSet.getString("name"),
-                                resultSet.getInt("age"),
-                                resultSet.getString("contactInfo"),
-                                resultSet.getString("experienceLevel"),
-                                resultSet.getBoolean("isMember")
+                                resultSet.getInt("ClientId"),
+                                resultSet.getString("Name"),
+                                resultSet.getInt("Age"),
+                                resultSet.getString("ContactInfo"),
+                                resultSet.getString("ExperienceLevel"),
+                                resultSet.getBoolean("IsMember")
                         );
                     } catch (SQLException e) {
                         e.printStackTrace();
@@ -63,13 +63,13 @@ public class Main {
                 resultSet -> {
                     try {
                         return new Course(
-                                resultSet.getInt("id"),
-                                resultSet.getString("name"),
-                                new java.util.Date(resultSet.getTimestamp("startTime").getTime()),
-                                resultSet.getInt("minAge"),
-                                resultSet.getString("experienceRequired"),
-                                resultSet.getInt("maxCapacity"),
-                                resultSet.getInt("currentCapacity")
+                                resultSet.getInt("Coursed"),
+                                resultSet.getString("Name"),
+                                new java.util.Date(resultSet.getTimestamp("StartTime").getTime()),
+                                resultSet.getInt("MinAge"),
+                                resultSet.getString("ExperienceRequired"),
+                                resultSet.getInt("MaxCapacity"),
+                                resultSet.getInt("CurrentCapacity")
                         );
                     } catch (SQLException e) {
                         e.printStackTrace();
@@ -94,12 +94,12 @@ public class Main {
                 resultSet -> {
                     try {
                         return new Employee(
-                                resultSet.getInt("id"),
-                                resultSet.getString("name"),
-                                resultSet.getInt("age"),
-                                resultSet.getString("contactInfo"),
-                                resultSet.getString("position"),
-                                resultSet.getString("employmentDate")
+                                resultSet.getInt("EmployeeId"),
+                                resultSet.getString("Name"),
+                                resultSet.getInt("Age"),
+                                resultSet.getString("ContactInfo"),
+                                resultSet.getString("Position"),
+                                resultSet.getString("EmploymentDate")
                         );
                     } catch (SQLException e) {
                         e.printStackTrace();
@@ -123,10 +123,10 @@ public class Main {
                 resultSet -> {
                     try {
                         return new Equipment(
-                                resultSet.getInt("id"),
-                                resultSet.getString("type"),
-                                resultSet.getInt("condition"),
-                                new java.util.Date(resultSet.getTimestamp("lastMaintenanceDate").getTime())
+                                resultSet.getInt("EquipmentId"),
+                                resultSet.getString("Type"),
+                                resultSet.getInt("Condition"),
+                                new java.util.Date(resultSet.getTimestamp("LastMaintenanceDate").getTime())
                         );
                     } catch (SQLException e) {
                         e.printStackTrace();
@@ -143,38 +143,41 @@ public class Main {
         );
         //Initialize DBRepository for Invoice
         IRepository<Invoice> invoiceRepository = new DBRepository<>(
-                connectionString,
-                "Invoices",
-                resultSet -> {
+                connectionString,  // Your connection string
+                "Invoices",        // The table name
+                resultSet -> {     // fromResultSet lambda for mapping rows to Invoice objects
                     try {
                         return new Invoice(
-                                resultSet.getInt("id"),
-                                resultSet.getInt("amount"),
-                                new java.util.Date(resultSet.getTimestamp("issueDate").getTime())
+                                resultSet.getInt("InvoiceId"),
+                                resultSet.getInt("Amount"),
+                                resultSet.getBoolean("Payed"),
+                                new Date(resultSet.getTimestamp("IssueDate").getTime())
                         );
                     } catch (SQLException e) {
                         e.printStackTrace();
                         return null;
                     }
                 },
-                invoice -> new Object[]{
-                        invoice.getInvoiceId(),
-                        invoice.getAmount(),
-                        new java.sql.Timestamp(invoice.getIssueDate().getTime())
+                invoice -> new Object[]{  // toColumns function for mapping Invoice object to Object[]
+                        invoice.getInvoiceId(), // Invoice ID
+                        invoice.getAmount(),    // Invoice amount
+                        invoice.getPayed(),
+                        new java.sql.Timestamp(invoice.getIssueDate().getTime())  // Convert Date to Timestamp
                 },
-                Invoice::getInvoiceId
+                Invoice::getInvoiceId  // Function for getting the Invoice ID
         );
+//TODO Table&Column names must be changed according to new SQL structure
         //Initialize DBRepository for Membership
         IRepository<Membership> membershipRepository = new DBRepository<>(
                 connectionString,
-                "Memberships",
+                "Membership",
                 resultSet -> {
                     try {
                         return new Membership(
-                                resultSet.getInt("id"),
-                                new java.util.Date(resultSet.getTimestamp("startDate").getTime()),
-                                new java.util.Date(resultSet.getTimestamp("endDate").getTime()),
-                                resultSet.getString("membershipType")
+                                resultSet.getInt("MembershipId"),
+                                new java.util.Date(resultSet.getTimestamp("StartDate").getTime()),
+                                new java.util.Date(resultSet.getTimestamp("EndDate").getTime()),
+                                resultSet.getString("MembershipType")
                         );
                     } catch (SQLException e) {
                         e.printStackTrace();
@@ -192,14 +195,14 @@ public class Main {
         //Initialize DBRepository for Payment
         IRepository<Payment> paymentRepository = new DBRepository<>(
                 connectionString,
-                "Payments",
+                "Payment",
                 resultSet -> {
                     try {
                         return new Payment(
-                                resultSet.getInt("id"),
-                                resultSet.getInt("membershipID"),
-                                resultSet.getDouble("amount"),
-                                new java.util.Date(resultSet.getTimestamp("paymentDate").getTime())
+                                resultSet.getInt("PaymentId"),
+                                resultSet.getInt("MembershipID"),
+                                resultSet.getDouble("Amount"),
+                                new java.util.Date(resultSet.getTimestamp("PaymentDate").getTime())
                         );
                     } catch (SQLException e) {
                         e.printStackTrace();
@@ -217,14 +220,14 @@ public class Main {
         //Iniatialize DBRepository for Schedule
         IRepository<Schedule> scheduleRepository = new DBRepository<>(
                 connectionString,
-                "Schedules",
+                "Schedule",
                 resultSet -> {
                     try {
                         return new Schedule(
-                                resultSet.getInt("id"),
-                                resultSet.getInt("employeeID"),
-                                new java.util.Date(resultSet.getTimestamp("startTime").getTime()),
-                                new java.util.Date(resultSet.getTimestamp("endTime").getTime())
+                                resultSet.getInt("ScheduleId"),
+                                resultSet.getInt("EmployeeID"),
+                                new java.util.Date(resultSet.getTimestamp("StartTime").getTime()),
+                                new java.util.Date(resultSet.getTimestamp("EndTime").getTime())
                         );
                     } catch (SQLException e) {
                         e.printStackTrace();
@@ -242,13 +245,13 @@ public class Main {
         //Initialize DBRepository for Registration
         IRepository<Registration> registrationRepository = new DBRepository<>(
                 connectionString,
-                "Registrations",
+                "Registration",
                 resultSet -> {
                     try {
                         return new Registration(
-                                resultSet.getInt("id"),
-                                new java.util.Date(resultSet.getTimestamp("registrationDate").getTime()),
-                                resultSet.getString("status"),
+                                resultSet.getInt("RegistartionId"),
+                                new java.util.Date(resultSet.getTimestamp("RegistrationDate").getTime()),
+                                resultSet.getString("Status"),
                                 null, // Assume associations (Client, Course, Invoice) are lazy-loaded
                                 null,
                                 null

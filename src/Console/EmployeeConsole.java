@@ -98,13 +98,13 @@ public class EmployeeConsole {
         System.out.print("Enter new name (current: " + existingEmployee.getName() + "): ");     //update name
         scanner.nextLine();  //consume newline
         String name = scanner.nextLine();
-        if (!name.isBlank()) {
+        if (!name.isEmpty()) {
             existingEmployee.setName(name);
         }
 
         System.out.print("Enter new age (current: " + existingEmployee.getAge() + "): ");       //update age
         String ageInput = scanner.nextLine();
-        if (!ageInput.isBlank()) {
+        if (!ageInput.isEmpty()) {
             try {
                 int age = Integer.parseInt(ageInput);
                 existingEmployee.setAge(age);
@@ -115,19 +115,19 @@ public class EmployeeConsole {
 
         System.out.print("Enter new contact info (current: " + existingEmployee.getContactInfo() + "): ");  //update contact info
         String contactInfo = scanner.nextLine();
-        if (!contactInfo.isBlank()) {
+        if (!contactInfo.isEmpty()) {
             existingEmployee.setContactInfo(contactInfo);
         }
 
         System.out.print("Enter new position (current: " + existingEmployee.getPosition() + "): ");
         String position = scanner.nextLine();
-        if (!position.isBlank()) {
+        if (!position.isEmpty()) {
             existingEmployee.setPosition(position);
         }
 
         System.out.print("Enter new employment date (current: " + existingEmployee.getEmploymentDate() + "): ");
         String employmentDate = scanner.nextLine();
-        if (!employmentDate.isBlank()) {
+        if (!employmentDate.isEmpty()) {
             existingEmployee.setEmploymentDate(employmentDate);
         }
 

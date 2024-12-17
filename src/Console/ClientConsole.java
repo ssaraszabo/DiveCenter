@@ -133,13 +133,13 @@ public class ClientConsole {
         System.out.print("Enter new name (current: " + existingClient.getName() + "): ");       //update Name
         scanner.nextLine(); //consume newline
         String name = scanner.nextLine();
-        if (!name.isBlank()) {
+        if (!name.isEmpty()) {
             existingClient.setName(name);
         }
 
         System.out.print("Enter new age (current: " + existingClient.getAge() + "): ");
         String ageInput = scanner.nextLine();               //update Age
-        if (!ageInput.isBlank()) {
+        if (!ageInput.isEmpty()) {
             try {
                 int age = Integer.parseInt(ageInput);
                 existingClient.setAge(age);
@@ -150,19 +150,19 @@ public class ClientConsole {
 
         System.out.print("Enter new contact info (current: " + existingClient.getContactInfo() + "): ");
         String contactInfo = scanner.nextLine();                    //update Contact Info
-        if (!contactInfo.isBlank()) {
+        if (!contactInfo.isEmpty()) {
             existingClient.setContactInfo(contactInfo);
         }
 
         System.out.print("Enter new experience level (current: " + existingClient.getexperienceLevel() + "): ");
         String experienceLevel = scanner.nextLine();                //update Experience Level
-        if (!experienceLevel.isBlank()) {
+        if (!experienceLevel.isEmpty()) {
             existingClient.setExperienceLevel(experienceLevel);
         }
 
         System.out.print("Is client a member (current: " + existingClient.isMember() + ", enter true/false): ");
         String isMemberInput = scanner.nextLine();                  //update Membership Status
-        if (!isMemberInput.isBlank()) {
+        if (!isMemberInput.isEmpty()) {
             boolean isMember = Boolean.parseBoolean(isMemberInput);
             existingClient.setMember(isMember);
         }
