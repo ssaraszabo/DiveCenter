@@ -8,4 +8,5 @@ public interface IRepository<T> {
     List<T> readAll();
     boolean update(T entity);
     boolean delete(int id);
+    int addAndReturnGeneratedKey(T entity); // Method to insert an entity and return the generated ID
 }

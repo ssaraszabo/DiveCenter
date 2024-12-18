@@ -1,7 +1,6 @@
 package Service;
 
 import Domain.Equipment;
-import Repository.FileRepository;
 import Repository.IRepository;
 
 import java.util.List;

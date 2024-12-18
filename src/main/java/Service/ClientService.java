@@ -1,7 +1,6 @@
 package Service;
-
+import Domain.Person;
 import Domain.Client;
-import Repository.FileRepository;
 import Repository.IRepository;
 
 import java.util.List;
@@ -9,9 +8,11 @@ import java.util.stream.Collectors;
 
 public class ClientService {
     private IRepository<Client> clientRepository;
+    private IRepository<Person> personRepository;
 
-    public ClientService(IRepository<Client> clientRepository) {
+    public ClientService(IRepository<Client> clientRepository,IRepository<Person> personRepository) {
         this.clientRepository = clientRepository;
+        this.personRepository=personRepository;
         /**
          * Initializes a new instance of ClientService with a FileRepository and DBRepository.
          */
@@ -45,7 +46,27 @@ public class ClientService {
      * @param client The client to add.
      */
     public void addClient(Client client) {
-        clientRepository.create(client);
+        try {
+            // Step 1: Insert Person into the Person table
+            Person person = new Person(0, client.getName(), client.getAge(), client.getContactInfo());
+            int personId = personRepository.addAndReturnGeneratedKey(person);
+
+            // Step 2: Insert Client into the Client table with the retrieved PersonId
+            Client newClient = new Client(
+                    personId,                     // Use the new PersonId
+                    client.getName(),
+                    client.getAge(),
+                    client.getContactInfo(),
+                    client.getexperienceLevel(),
+                    client.isMember()
+            );
+            clientRepository.create(newClient);
+
+            System.out.println("Client successfully added!");
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.err.println("Error adding client: " + e.getMessage());
+        }
     }
     /**
      * Retrieves a client by id.

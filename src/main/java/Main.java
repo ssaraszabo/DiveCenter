@@ -1,32 +1,52 @@
-
 import Console.ClientConsole;
 import Console.CourseConsole;
 import Console.EquipmentConsole;
-import Console.InvoiceConsole;
+//import Console.InvoiceConsole;
 import Console.MembershipConsole;
 import Console.PaymentConsole;
 import Console.ScheduleConsole;
-
 import Controller.*;
-
 import Domain.*;
-
 import Repository.DBRepository;
 import Repository.IRepository;
 import Service.*;
-
 import java.sql.SQLException;
 import java.util.Date;
 import java.util.Scanner;
-import Console.RegistrationConsole;
+//import Console.RegistrationConsole;
 
 public class Main {
     public static void main(String[] args) {
+        System.out.println("Program started");
         Scanner scanner = new Scanner(System.in);
-        System.setProperty("java.library.path", "E:\\Documents\\JavaSqlConnectionStuff\\mssql-jdbc_auth-12.81.x64.dll");
+        System.setProperty("java.library.path", "C:\\Users\\Public\\mssql-jdbc_auth-12.8.1.x64.dll");
         // Connection string for the database
-        String connectionString = "jdbc:sqlserver://localhost:58092;databaseName=DiveCenterMAP;encrypt=false;trustServerCertificate=true;integratedSecurity=true;";
+        String connectionString = "jdbc:sqlserver://localhost;instanceName=SQLEXPRESS;databaseName=DiveCenterDB;integratedSecurity=true;encrypt=false;";
 
+        // Initialize DBRepository for Person
+        IRepository<Person> personRepository = new DBRepository<>(
+                connectionString,
+                "Persons",
+                resultSet -> {
+                    try {
+                        return new Person(
+                                resultSet.getInt("PersonId"),
+                                resultSet.getString("Name"),
+                                resultSet.getInt("Age"),
+                                resultSet.getString("ContactInfo")
+                        );
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                        return null;
+                    }
+                },
+                person -> new Object[]{
+                        person.getName(),
+                        person.getAge(),
+                        person.getContactInfo()
+                },
+                Person::getId
+        );
         // Initialize DBRepository for Client
         IRepository<Client> clientRepository = new DBRepository<>(
                 connectionString,
@@ -35,9 +55,7 @@ public class Main {
                     try {
                         return new Client(
                                 resultSet.getInt("ClientId"),
-                                resultSet.getString("Name"),
-                                resultSet.getInt("Age"),
-                                resultSet.getString("ContactInfo"),
+                                null,0,null,
                                 resultSet.getString("ExperienceLevel"),
                                 resultSet.getBoolean("IsMember")
                         );
@@ -48,9 +66,6 @@ public class Main {
                 },
                 client -> new Object[]{
                         client.getId(),
-                        client.getName(),
-                        client.getAge(),
-                        client.getContactInfo(),
                         client.getexperienceLevel(),
                         client.isMember()
                 },
@@ -63,7 +78,7 @@ public class Main {
                 resultSet -> {
                     try {
                         return new Course(
-                                resultSet.getInt("Coursed"),
+                                resultSet.getInt("CourseID"),
                                 resultSet.getString("Name"),
                                 new java.util.Date(resultSet.getTimestamp("StartTime").getTime()),
                                 resultSet.getInt("MinAge"),
@@ -272,7 +287,7 @@ public class Main {
         EmployeeService employeeService = new EmployeeService(employeeRepository);
         EmployeeController employeeController = new EmployeeController(employeeService);
 
-        ClientService clientService = new ClientService(clientRepository);
+        ClientService clientService = new ClientService(clientRepository,personRepository);
         ClientController clientController = new ClientController(clientService);
 
         CourseService courseService = new CourseService(courseRepository);
@@ -281,8 +296,8 @@ public class Main {
         EquipmentService equipmentService = new EquipmentService(equipmentRepository);
         EquipmentController equipmentController = new EquipmentController(equipmentService);
 
-        InvoiceService invoiceService = new InvoiceService(invoiceRepository);
-        InvoiceController invoiceController = new InvoiceController(invoiceService);
+//        InvoiceService invoiceService = new InvoiceService(invoiceRepository);
+//        InvoiceController invoiceController = new InvoiceController(invoiceService);
 
         MembershipService membershipService = new MembershipService(membershipRepository);
         MembershipController membershipController = new MembershipController(membershipService);
@@ -293,17 +308,17 @@ public class Main {
         ScheduleService scheduleService = new ScheduleService(scheduleRepository);
         ScheduleController scheduleController = new ScheduleController(scheduleService);
 
-        RegistrationService registrationService = new RegistrationService(registrationRepository,invoiceController);
-        RegistrationController registrationController = new RegistrationController(registrationService);
+//        RegistrationService registrationService = new RegistrationService(registrationRepository,invoiceController);
+//        RegistrationController registrationController = new RegistrationController(registrationService);
 
         ClientConsole clientConsole = new ClientConsole(clientController);
         CourseConsole courseConsole = new CourseConsole(courseController);
         EquipmentConsole equipmentConsole = new EquipmentConsole(equipmentController);
-        InvoiceConsole invoiceConsole = new InvoiceConsole(invoiceController);
+//        InvoiceConsole invoiceConsole = new InvoiceConsole(invoiceController);
         MembershipConsole membershipConsole = new MembershipConsole(membershipController);
         PaymentConsole paymentConsole = new PaymentConsole(paymentController);
         ScheduleConsole scheduleConsole = new ScheduleConsole(scheduleController);
-        RegistrationConsole registrationConsole = new RegistrationConsole(registrationController,clientController,courseController);
+//        RegistrationConsole registrationConsole = new RegistrationConsole(registrationController,clientController,courseController);
 
         while (true) {
             System.out.println("Main Menu");
@@ -331,7 +346,7 @@ public class Main {
                     equipmentConsole.showMenu();
                     break;
                 case 4:
-                    invoiceConsole.showMenu();
+//                    invoiceConsole.showMenu();
                     break;
                 case 5:
                     membershipConsole.showMenu();
@@ -343,7 +358,7 @@ public class Main {
                     scheduleConsole.showMenu();
                     break;
                 case 8:
-                    registrationConsole.displayMenu();
+//                    registrationConsole.displayMenu();
                     return;
                 case 9:
                     System.out.println("Exiting program.");

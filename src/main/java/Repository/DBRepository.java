@@ -58,6 +58,38 @@ public class DBRepository<T> implements IRepository<T> {
         return false;
     }
 
+    /**
+     * Adds an entity and returns the generated ID (for use in cases like auto-increment primary keys).
+     *
+     * @param entity The entity to be added.
+     * @return The generated ID, or -1 if an error occurs.
+     */
+    public int addAndReturnGeneratedKey(T entity) {
+        try (Connection connection = DriverManager.getConnection(connectionString)) {
+            StringBuilder query = new StringBuilder("INSERT INTO " + tableName + " VALUES (");
+            Object[] values = toColumns.apply(entity);
+            for (int i = 0; i < values.length; i++) {
+                query.append("?");
+                if (i < values.length - 1) query.append(", ");
+            }
+            query.append(")");
+
+            try (PreparedStatement statement = connection.prepareStatement(query.toString(), Statement.RETURN_GENERATED_KEYS)) {
+                setStatementParameters(statement, values);
+                statement.executeUpdate();
+
+                // Retrieve generated keys
+                ResultSet keys = statement.getGeneratedKeys();
+                if (keys.next()) {
+                    return keys.getInt(1);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return -1; // In case of failure
+    }
+
     @Override
     public T read(int id) {
         try (Connection connection = DriverManager.getConnection(connectionString)) {
