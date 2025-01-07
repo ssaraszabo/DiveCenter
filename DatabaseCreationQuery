@@ -1,13 +1,9 @@
 --DATABASE CREATION QUERY
-CREATE TABLE Persons (
-    PersonID INT PRIMARY KEY IDENTITY(1,1), -- Unique ID for all persons
+CREATE TABLE Client (
+    ClientID INT PRIMARY KEY, -- Same as PersonID
     Name NVARCHAR(100) NOT NULL,
     Age INT CHECK (Age >= 0), -- Ensures non-negative ages
     ContactInfo NVARCHAR(255) -- Phone or email
-);
-
-CREATE TABLE Client (
-    ClientID INT PRIMARY KEY, -- Same as PersonID
     ExperienceLevel NVARCHAR(50), -- Beginner, Intermediate, Advanced
     IsMember BIT NOT NULL DEFAULT 0, -- Boolean: 0 = false, 1 = true
     FOREIGN KEY (ClientID) REFERENCES Persons(PersonID)
@@ -15,6 +11,9 @@ CREATE TABLE Client (
 
 CREATE TABLE Employees (
     EmployeeID INT PRIMARY KEY, -- Same as PersonID
+    Name NVARCHAR(100) NOT NULL,
+    Age INT CHECK (Age >= 0), -- Ensures non-negative ages
+    ContactInfo NVARCHAR(255) -- Phone or email
     Position NVARCHAR(100) NOT NULL, -- Job title (e.g., Instructor, Admin)
     EmploymentDate DATE NOT NULL, -- Date of employment
     FOREIGN KEY (EmployeeID) REFERENCES Persons(PersonID)
