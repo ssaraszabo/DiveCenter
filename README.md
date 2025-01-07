@@ -1,7 +1,7 @@
 # DiveCenter
 ### Description
 
-The goal of the application is to serve as an information manager about employees, clients, and sales, as well as handle course registrations made by clients at the dive center. The app allows registrations to be created, modified or deleted both by clients and the center. 
+The goal of the application is to serve as an information manager about employees, clients, and sales, as well as handle course registrations made by clients at the dive center. The app allows registrations to be created, modified or deleted. 
 
 ### Main functions:
 
