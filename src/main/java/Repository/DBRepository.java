@@ -93,7 +93,8 @@ public class DBRepository<T> implements IRepository<T> {
     @Override
     public T read(int id) {
         try (Connection connection = DriverManager.getConnection(connectionString)) {
-            String query = "SELECT * FROM " + tableName + " WHERE id = ?";
+            String primaryKeyColumn = getFirstColumnName(connection);
+            String query = "SELECT * FROM " + tableName + " WHERE " + primaryKeyColumn + " = ?";
             try (PreparedStatement statement = connection.prepareStatement(query)) {
                 statement.setInt(1, id);
                 try (ResultSet resultSet = statement.executeQuery()) {
@@ -159,7 +160,22 @@ public class DBRepository<T> implements IRepository<T> {
         }
         return false;
     }
-
+    /**
+     * Retrieves the name of the first column in the specified table.
+     *
+     * @param connection The database connection.
+     * @return The name of the first column.
+     * @throws SQLException If an error occurs while retrieving metadata.
+     */
+    private String getFirstColumnName(Connection connection) throws SQLException {
+        DatabaseMetaData metaData = connection.getMetaData();
+        try (ResultSet columns = metaData.getColumns(null, null, tableName, null)) {
+            if (columns.next()) {
+                return columns.getString("COLUMN_NAME");
+            }
+        }
+        throw new SQLException("No columns found for table: " + tableName);
+    }
     private void setStatementParameters(PreparedStatement statement, Object[] values) throws SQLException {
         for (int i = 0; i < values.length; i++) {
             statement.setObject(i + 1, values[i]);
