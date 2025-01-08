@@ -2,7 +2,7 @@ import Console.ClientConsole;
 import Console.CourseConsole;
 import Console.EmployeeConsole;
 import Console.EquipmentConsole;
-//import Console.InvoiceConsole;
+import Console.InvoiceConsole;
 import Console.MembershipConsole;
 import Console.PaymentConsole;
 import Console.ScheduleConsole;
@@ -14,7 +14,7 @@ import Service.*;
 import java.sql.SQLException;
 import java.util.Date;
 import java.util.Scanner;
-//import Console.RegistrationConsole;
+import Console.RegistrationConsole;
 
 public class Main {
     public static void main(String[] args) {
@@ -299,8 +299,8 @@ public class Main {
         EquipmentService equipmentService = new EquipmentService(equipmentRepository);
         EquipmentController equipmentController = new EquipmentController(equipmentService);
 
-//        InvoiceService invoiceService = new InvoiceService(invoiceRepository);
-//        InvoiceController invoiceController = new InvoiceController(invoiceService);
+        InvoiceService invoiceService = new InvoiceService(invoiceRepository);
+        InvoiceController invoiceController = new InvoiceController(invoiceService);
 
         MembershipService membershipService = new MembershipService(membershipRepository);
         MembershipController membershipController = new MembershipController(membershipService);
@@ -311,17 +311,17 @@ public class Main {
         ScheduleService scheduleService = new ScheduleService(scheduleRepository);
         ScheduleController scheduleController = new ScheduleController(scheduleService);
 
-//        RegistrationService registrationService = new RegistrationService(registrationRepository,invoiceController);
-//        RegistrationController registrationController = new RegistrationController(registrationService);
+        RegistrationService registrationService = new RegistrationService(registrationRepository,invoiceController);
+        RegistrationController registrationController = new RegistrationController(registrationService);
 
         ClientConsole clientConsole = new ClientConsole(clientController);
         CourseConsole courseConsole = new CourseConsole(courseController);
         EquipmentConsole equipmentConsole = new EquipmentConsole(equipmentController);
-//        InvoiceConsole invoiceConsole = new InvoiceConsole(invoiceController);
+        InvoiceConsole invoiceConsole = new InvoiceConsole(invoiceController);
         MembershipConsole membershipConsole = new MembershipConsole(membershipController);
         PaymentConsole paymentConsole = new PaymentConsole(paymentController);
         ScheduleConsole scheduleConsole = new ScheduleConsole(scheduleController);
-//        RegistrationConsole registrationConsole = new RegistrationConsole(registrationController,clientController,courseController);
+        RegistrationConsole registrationConsole = new RegistrationConsole(registrationController,clientController,courseController);
 
         EmployeeConsole employeeConsole = new EmployeeConsole(employeeController);
         while (true) {
@@ -353,7 +353,7 @@ public class Main {
                     equipmentConsole.showMenu();
                     break;
                 case 5:
-//                    invoiceConsole.showMenu();
+                    invoiceConsole.showMenu();
                     break;
                 case 6:
                     membershipConsole.showMenu();
@@ -365,7 +365,7 @@ public class Main {
                     scheduleConsole.showMenu();
                     break;
                 case 9:
-//                    registrationConsole.displayMenu();
+                    registrationConsole.displayMenu();
                     return;
                 case 0:
                     System.out.println("Exiting program.");
