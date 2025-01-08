@@ -51,7 +51,7 @@ public class CourseConsole {
         }
     }
 
-    private void viewCoursebySlots() {
+    private void viewCoursebyAge() {
         List<Course> sortcourses = courseController.getCoursebyAge();
         if (sortcourses.isEmpty()) {
             System.out.println("No courses available.");
@@ -63,7 +63,7 @@ public class CourseConsole {
         }
     }
 
-    private void viewCoursebyAge() {
+    private void viewCoursebySlots() {
         List<Course> sortedcourses = courseController.getCoursebySlots();
         if (sortedcourses.isEmpty()) {
             System.out.println("No courses available.");
