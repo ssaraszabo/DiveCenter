@@ -49,9 +49,11 @@ public class DBRepository<T> implements IRepository<T> {
             }
             query.append(")");
             try (PreparedStatement statement = connection.prepareStatement(query.toString())) {
-                setStatementParameters(statement, values);
+                for (int i = 0; i < values.length; i++) {
+                    statement.setObject(i + 1, values[i]);
+                }
                 return statement.executeUpdate() > 0;
-            }
+                }
         } catch (SQLException e) {
             e.printStackTrace();
         }
