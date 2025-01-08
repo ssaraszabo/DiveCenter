@@ -12,6 +12,11 @@ public class Employee extends Person {
         this.employmentDate = employmentDate;
     }
 
+    @Override
+    public int getId() {
+        return super.getId();
+    }
+
     public String getPosition() {
         return position;
     }

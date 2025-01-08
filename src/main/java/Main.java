@@ -1,5 +1,6 @@
 import Console.ClientConsole;
 import Console.CourseConsole;
+import Console.EmployeeConsole;
 import Console.EquipmentConsole;
 //import Console.InvoiceConsole;
 import Console.MembershipConsole;
@@ -22,7 +23,6 @@ public class Main {
         System.setProperty("java.library.path", "C:\\Users\\Public\\mssql-jdbc_auth-12.8.1.x64.dll");
         // Connection string for the database
         String connectionString = "jdbc:sqlserver://localhost;instanceName=SQLEXPRESS;databaseName=DiveCenterDB;integratedSecurity=true;encrypt=false;";
-
         // Initialize DBRepository for Person
         IRepository<Person> personRepository = new DBRepository<>(
                 connectionString,
@@ -55,7 +55,9 @@ public class Main {
                     try {
                         return new Client(
                                 resultSet.getInt("ClientId"),
-                                null,0,null,
+                                resultSet.getString("Name"),
+                                resultSet.getInt("Age"),
+                                resultSet.getString("ContactInfo"),
                                 resultSet.getString("ExperienceLevel"),
                                 resultSet.getBoolean("IsMember")
                         );
@@ -65,7 +67,9 @@ public class Main {
                     }
                 },
                 client -> new Object[]{
-                        client.getId(),
+                        client.getName(),
+                        client.getAge(),
+                        client.getContactInfo(),
                         client.getexperienceLevel(),
                         client.isMember()
                 },
@@ -122,7 +126,6 @@ public class Main {
                     }
                 },
                 employee -> new Object[]{
-                        employee.getId(),
                         employee.getName(),
                         employee.getAge(),
                         employee.getContactInfo(),
@@ -320,17 +323,19 @@ public class Main {
         ScheduleConsole scheduleConsole = new ScheduleConsole(scheduleController);
 //        RegistrationConsole registrationConsole = new RegistrationConsole(registrationController,clientController,courseController);
 
+        EmployeeConsole employeeConsole = new EmployeeConsole(employeeController);
         while (true) {
             System.out.println("Main Menu");
             System.out.println("1. Manage Clients");
-            System.out.println("2. Manage Courses");
-            System.out.println("3. Manage Equipment");
-            System.out.println("4. Manage Invoices");
-            System.out.println("5. Manage Memberships");
-            System.out.println("6. Manage Payments");
-            System.out.println("7. Manage Schedules");
-            System.out.println("8. Manage Registrations");
-            System.out.println("9. Exit");
+            System.out.println("2. Manage Employees");
+            System.out.println("3. Manage Courses");
+            System.out.println("4. Manage Equipments");
+            System.out.println("5. Manage Invoices");
+            System.out.println("6. Manage Memberships");
+            System.out.println("7. Manage Payments");
+            System.out.println("8. Manage Schedules");
+            System.out.println("9. Manage Registrations");
+            System.out.println("0. Exit");
             System.out.print("Select an option: ");
 
             int choice = Integer.parseInt(scanner.nextLine());
@@ -340,27 +345,29 @@ public class Main {
                     clientConsole.showMenu();
                     break;
                 case 2:
+                    employeeConsole.displayMenu();
+                case 3:
                     courseConsole.showMenu();
                     break;
-                case 3:
+                case 4:
                     equipmentConsole.showMenu();
                     break;
-                case 4:
+                case 5:
 //                    invoiceConsole.showMenu();
                     break;
-                case 5:
+                case 6:
                     membershipConsole.showMenu();
                     break;
-                case 6:
+                case 7:
                     paymentConsole.showMenu();
                     break;
-                case 7:
+                case 8:
                     scheduleConsole.showMenu();
                     break;
-                case 8:
+                case 9:
 //                    registrationConsole.displayMenu();
                     return;
-                case 9:
+                case 0:
                     System.out.println("Exiting program.");
                     break;
                 default:
